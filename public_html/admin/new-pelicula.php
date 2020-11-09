@@ -1,58 +1,73 @@
 <?php
+include_once('functions/funcs.php');
+
+include('functions/funimg.php');
+//$id = 1;
+/* echo '<pre>';
+
+if(isset($_FILES['tImg']))
+var_dump($_FILES);
+echo '</pre>'; */
+if(isset($_FILES['tImg']))
+  move_uploaded_file($_FILES['tImg']['tmp_name'],'img/'.$_FILES['tImg']['name']);
 
 
-/********************* GENERAR JSON *****************/
+//obtengo el contenido del archivo
+$datos = file_get_contents('../datos/productos.json');
+//convierto a un array
+$datosJson = json_decode($datos,true);
 
-$pelis = array( 
-  'nombre' => $_POST['nombre'],
-  'precio' => $_POST['precio'],
-  'clasificacion' => $_POST['clasi'],
-  'año' => $_POST['año'],
-  'direc' => $_POST['direc'],
-  'actores' => $_POST['actores'],
-  'descripcion' => $_POST['descrip']
-)
+    if(isset($_POST['add'])){
+        
+    
+        if(isset($_GET['edit'])){
+            //modificando
+            $id = $_GET['edit'];
+        }else{
+            //agrego 
+            $id = date('j/n/Y, H:i:s');
+        }
 
-/*if ( isset($_POST["tName"]) && isset($_POST["tPrecio"]) && isset($_POST["tClasi"]) &&
-    isset($_POST["tAnio"]) && isset($_POST["tDirect"]) && isset($_POST["tActor"]) 
-    && isset($_POST["tImg"]) && isset($_POST["tDescripcion"]))
-{
- 
- $datos = array(); //creamos un array
+        $datosJson[$id] = array(
+          'id'=>$id,'nombre'=>$_POST['tName'],'genero'=>$_POST['tGene'],'anio'=>$_POST['tAnio'],
+          'director'=>$_POST['tDirect'],'actores'=>$_POST['tActor'],'duracion'=>$_POST['tDur'],
+          'clasificacion'=>$_POST['tClasi'],'descripcion'=>$_POST['tDescripcion'],
+          'imagen'=>$_FILES['tImg'],'precio'=>$_POST['tPrecio']);
+    
+        //trunco el archivo
+        $fp = fopen('../datos/productos.json','w');
+        //convierto a json string
+        $datosString = json_encode($datosJson);
+        //guardo el archivo
+        fwrite($fp,$datosString);
+        fclose($fp);
+        redirect('peliculas.php');
+    }
 
-$dato1=$_POST['tName'];
-$dato2=$_POST['tPrecio'];
-$dato3=$_POST['tClasi'];
-$dato4=$_POST['tAnio'];
-$dato5=$_POST['tDirect'];
-$dato6=$_POST['tActor'];
-$dato7=$_POST['tImg'];
-$dato8=$_POST['tDescripcion'];
-
-
-$datos[] = array('tName'=> $dato1, 'tPrecio'=> $dato2, 'tClasi'=> $dato3,
-                'tAnio'=> $dato4, 'tDirect'=> $dato5, 'tActor'=> $dato6, 'tImg'=> $dato7, 'tDescripcion'=> $dato8);
-
-
- //Creamos el JSON
- $json_string = json_encode($datos);
-
-
- $file = 'datos.json';
- file_put_contents($file, $json_string); 
-
-
-}
-else
-{
- //echo "<span style='color: red;'>Por favor, ingrese algún dato. </span></br></br>";
-}*/
-
-
+    if(isset($_GET['edit'])){
+        $dato = $datosJson[$_GET['edit']];
+    }
 ?>
 
+<?php
+/* $id = 1;
+ if(isset($_FILES['tImg']))
+	var_dump($_FILES['tImg']);
 
-
+if(isset($_FILES['tImg'])){
+	$tamanhos = array(0 => array('tName'=>'big','ancho'=>'5000','alto'=>'10000'),
+					          1 => array('tName'=>'small','ancho'=>'500','alto'=>'1000'),
+					          2 => array('tName'=>'thumb','ancho'=>'50','alto'=>'50'));
+	$ruta = 'img/'.$id.'/';
+	if(!is_dir($ruta))
+		mkdir($ruta);	 */		  
+  
+/*      foreach($_FILES['tImg']['name'] as $pos=>$nombre){
+        redimensionar($ruta,$_FILES['tImg']['name'][$pos], $_FILES['tImg']['tmp_name'],$pos,$tamanhos);
+    }  */
+/* 	redimensionar($ruta,$_FILES['tImg']['name'],$_FILES['tImg']['tmp_name'],0,$tamanhos);
+} */
+?>
 
 
 <!DOCTYPE html>
@@ -77,7 +92,7 @@ else
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+  <link href="style.css" rel="stylesheet"/>
 </head>
 
 <body id="page-top">
@@ -186,41 +201,94 @@ include_once('inc/header.php');
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                    <form method="POST" action="peliculas.php" name="prod">
+                    <form method="POST" action="" name="prod" enctype="multipart/form-data">
                       <table class="table bg-gradient-dark text-white" id="dataTable" width="100%" cellspacing="0">
                         <tr>
-                          <td align="right"><label for="txtName">Nombre</label</td>
+                          <td align="right"><label for="txtName">Nombre:</label</td>
                           <td><input type="text" id="txtName" name="tName" size="50" class="bg-danger text-white"></td>
                         </tr>
                         <tr>
-                        <td align="right"><label for="txtPrecio">Precio</label</td>
-                          <td><input type="text" id="txtPrecio" name="tPrecio" size="10" class="bg-danger text-white"></td>
+                          <td align="right"><label for="txtPrecio">Precio:</label</td>
+                          <td><input type="text" id="txtPrecio" name="tPrecio"  size="10" class="bg-danger text-white"></td>
                         </tr>
                         <tr>
-                        <td align="right"><label for="txtClasi">Clasificación</label</td>
-                          <td><input type="text" id="txtClasi" name="tClasi" size="50" class="bg-danger text-white"></td>
+                          <td align="right"><label for="tClasi">Clasificación:</label</td>
+                          <td>
+                          <select name="tClasi" id="#clasi" class="bg-danger text-white">
+                          <?php
+
+
+
+                          $clasi=json_decode(file_get_contents('../datos/clasificacion.json'),true);
+                           
+                          
+                          /* '<pre>';
+                          $mostrar = var_dump($clasi);
+                          echo $mostrar;
+                          echo '</pre>'; */
+
+                          foreach($clasi as $clas){ ?>
+                            <option class="bg-danger text-white" value="<?php echo $clas['nombre'] ?>"> <?php echo $clas['nombre'] ?> </option>
+                          <?php } ?>
+                          
+                          </select>
+                            
+                          <!-- <input type="text" id="txtClasi" name="tClasi" size="5"  class="bg-danger text-white"> -->
+                          
+                          
+                          </td>
                         </tr>
                         <tr>
-                        <td align="right"><label for="txtAnio">Año</label</td>
-                          <td><input type="text" id="txtAnio" name="tAnio" size="5" class="bg-danger text-white"></td>
+                          <td align="right"><label for="txtGene">Género:</label</td>
+                          <td>
+                          
+                          <?php 
+                          
+                          $categorias = json_decode(file_get_contents('../datos/categorias.json'),true);
+                          
+                          $cont=0;
+                          foreach($categorias as $cat){ ?>
+                          
+                          
+                          <input type="checkbox" id="generos" name="tGene[]" value="<?php echo $cat['id'] ?>" size="5" class="bg-danger text-white">
+                          <label class="bg-danger text-white" for="generos"><?php echo $cat['nombre'] ?></label>
+                          
+                            <?php $cont++; 
+                            if($cont==3){
+                              $cont=0;
+                              echo "<br/>";
+                            }?>
+                          
+                          <?php  } ?>
+                          
+                          </td>
                         </tr>
                         <tr>
-                        <td align="right"><label for="txtDirect">Directores</label</td>
-                          <td><input type="text" id="txtDirect" name="tDirect" size="50" class="bg-danger text-white"></td>
+                          <td align="right"><label for="txtAnio">Año:</label</td>
+                          <td><input type="text" id="txtAnio" name="tAnio"  size="5" class="bg-danger text-white"></td>
                         </tr>
                         <tr>
-                        <td align="right"><label for="txtActor">Actores</label</td>
-                          <td><input type="text" id="txtActor" name="tActor" size="50" class="bg-danger text-white"></td>
-                        </tr>                                                
+                          <td align="right"><label for="txtDirect">Directores:</label</td>
+                          <td><input type="text" id="txtDirect" name="tDirect"  size="50" class="bg-danger text-white"></td>
+                        </tr>
                         <tr>
-                        <td align="right"><label for="txtImg">Imagen</label</td>
-                          <td><input type="file" id="txtImg" name="tImg" accept="image/*" class="bg-danger text-white"></td>
-                          </tr>
-                          <td align="right"><label for="txtDescripcion">Descripcion</label</td>
-                          <td align="left"><textarea id="txtDescripcion" name="tdescripcion" cols="80" rows="5" class="bg-danger text-white"></textarea></td>
+                          <td align="right"><label for="txtActor">Actores:</label</td>
+                          <td><input type="text" id="txtActor" name="tActor"  size="50" class="bg-danger text-white"></td>
+                        </tr>
+                        <tr>
+                          <td align="right"><label for="txtDur">Duración:</label</td>
+                          <td><input type="text" id="txtDur" name="tDur"  size="5" class="bg-danger text-white"></td>
+                        </tr>                                                  
+                        <tr>
+                          <td align="right"><label for="txtImg">Imagen:</label</td>
+                          <td><input type="file" id="txtImg" name="tImg" value="Examinar" accept="image/*" class="bg-danger text-white"></td>
+                        </tr>
+                        <tr>
+                          <td align="right"><label for="txtDescripcion">Descripción</label</td>
+                          <td align="left"><textarea id="txtDescripcion" name="tDescripcion" cols="80" rows="5" class="bg-danger text-white"></textarea></td>
                         </tr>                           
-                        </tr>
-                          <td align="right"><input type="submit" value="Guardar" id="btnSavePeli" class="btn btn-danger"></td>
+                        <tr>
+                          <td align="right"><input type="submit"  name="add" value="Guardar" id="btnSavePeli" class="btn btn-danger"></td>
                           <td align="left"><input type="reset" value="Reset" class="btn btn-danger"></td>
                         </tr>                         
                       </table>

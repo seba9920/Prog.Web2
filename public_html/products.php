@@ -21,23 +21,29 @@ Products
 		  
 		  
 		  <?php
-		  include('datos/productos.php');
+		  $datos = file_get_contents('datos/productos.json');
+		  $datosJson = json_decode($datos,true);
 		  
-		  $columns = array_column($productos, 'anio');
-          array_multisort($columns, SORT_DESC, $productos);
-           
-		  include('datos/categorias.php');
+		  
+		  $columns = array_column($datosJson, 'anio');
+          array_multisort($columns, SORT_DESC, $datosJson);
+		   
+		  
 
-		  	foreach($productos as $prod){
+		  
+
+		  	foreach($datosJson as $prod){
 		  	    
 				
-				if($prod['activo']==true){
+				
 				$imprimir=true;
 
 					if(!empty($_GET['cat'])){
-						if(is_array($prod['categorias'])){
+					  
+				   if(isset($prod['genero'])){
+					if(is_array($prod['genero'])){
 							
-								foreach(($prod['categorias']) as $index => $value){
+								foreach($prod['genero'] as $index => $value){
 									if($value !=$_GET['cat']){
 										$imprimir=false;
 									}elseif($value ==$_GET['cat']){
@@ -45,24 +51,37 @@ Products
 									break;
 									}
 								}
- 					    }elseif($prod['categorias'] !=$_GET['cat']){
+							
+							}elseif($prod['genero'] !=$_GET['cat']){
 							$imprimir=false;
-						}
-
+						}}
+						
+						
 					}
+					
 					if(!empty($_GET['clasificacion'])){
 						if($prod['clasificacion'] !=$_GET['clasificacion']){
 							$imprimir=false;
 						}
 					}
+
 					
-						if($imprimir){
+
+					
+						if($imprimir==true){
+							if (is_array($prod['imagen'])) {
+                                          
+								$img = 'admin/img/'.$prod['imagen']['name'];
+												  
+							 } else {
+							 $img = 'images/'.$prod['imagen'];
+							 };
 						?>
 						<li class="span5 ">
 						<div class="thumbnail ">
 							<a href="product_details.php?id=<?php echo $prod['id']?>" class="overlay"></a>
 							<a class="zoomTool" href="product_details.php?id=<?php echo $prod['id']?>" title="add to cart"><span class="icon-search"></span>Detalles</a>
-							<a href="product_details.php?id=<?php echo $prod['id']?>"><img src="images/<?php echo $prod['imagen'] ?>" alt=""></a>
+							<a href="product_details.php?id=<?php echo $prod['id']?>"><img src="<?php echo $img ?>" alt=""></a>
 							<div class="caption cntr peliculas">
 								<p><strong><?php echo $prod['nombre'] ?></strong></p>
 								<p><?php echo $prod['anio'] ?></p>
@@ -74,7 +93,7 @@ Products
 			
 			
 			<?php
-			}}}
+			}}
 			?>
 			
 			

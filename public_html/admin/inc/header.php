@@ -36,16 +36,28 @@
       </li>
       <!-- Nav Item - Tables -->
       <li class="nav-item active">
-        <a class="nav-link" href="pedidos.php">
-          <i class="fas fa-shopping-cart"></i>
-          <span>Pedidos</span></a>
-      </li>      
+        <a class="nav-link" href="generos.php">
+        <i class="fas fa-cubes"></i>
+          <span>Géneros</span></a>
+      </li>
       <!-- Nav Item - Tables -->
       <li class="nav-item active">
-        <a class="nav-link" href="clientes.php">
+        <a class="nav-link" href="clasificacion.php">
+        <i class="fas fa-cubes"></i>
+          <span>Clasificación</span></a>
+      </li>             
+      <!-- Nav Item - Tables -->
+      <li class="nav-item active">
+        <a class="nav-link" href="user.php">
           <i class="fas fa-user-circle"></i>
-          <span>Clientes</span></a>
+          <span>Usuarios</span></a>
       </li>
+      <!-- Nav Item - Tables -->
+      <li class="nav-item active">
+        <a class="nav-link" href="comentarios.php">
+        <i class="fas fa-comment-alt"></i>
+          <span>Comentarios</span></a>
+      </li>       
       <!-- Nav Item - Tables 
       <li class="nav-item active">
         <a class="nav-link" href="informes.php">

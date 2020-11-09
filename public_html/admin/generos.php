@@ -1,7 +1,7 @@
 <?php
 include_once('functions/funcs.php');
 
-$datos = file_get_contents('../datos/productos.json');
+$datos = file_get_contents('../datos/categorias.json');
 //echo $datos['imagen']['name'];
 
 if(isset($_GET['del'])){
@@ -9,10 +9,9 @@ if(isset($_GET['del'])){
 /*   foreach(file_get_contents('productos.json', true) as $a) {
    $files = glob('img/'.$a['imagen']['name']); //obtenemos todos los nombres de los ficheros
   } */
-    $datos = file_get_contents('../datos/productos.json');
+    $datos = file_get_contents('../datos/categorias.json');
     $datosJson = json_decode($datos,true);
-    $eliminarimg= $datos['imagen']['name'];
-    imagedestroy('img/'.$eliminarimg);
+    
 
 
   //fin eliminacion archivo imagen
@@ -21,21 +20,21 @@ if(isset($_GET['del'])){
       unlink($file); //elimino el fichero
   } 
     //obtengo el contenido del archivo
-    $datos = file_get_contents('../datos/productos.json');
+    $datos = file_get_contents('../datos/categorias.json');
     //convierto a un array
     $datosJson = json_decode($datos,true);
     //var_dump($datosJson);
     //borro del array
     unset($datosJson[$_GET['del']]);
     //trunco el archivo
-    $fp = fopen('../datos/productos.json','w');
+    $fp = fopen('../datos/categorias.json','w');
     //convierto a json string
     $datosString = json_encode($datosJson);
     //guardo el archivo
     fwrite($fp,$datosString);
     fclose($fp);
 
-    redirect('peliculas.php');
+    //redirect('generos.php');
 }
 ?>
 
@@ -52,7 +51,7 @@ if(isset($_GET['del'])){
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Panel-Admin</title>
+  <title>Admin-Peliculas</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -64,8 +63,6 @@ if(isset($_GET['del'])){
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script type="text/javascript" src="jquery.tablesorter.js"></script> 
 </head>
 
 <body id="page-top">
@@ -163,14 +160,10 @@ include_once('inc/header.php');
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Peliculas</h1>
+          <h1 class="h3 mb-2 text-gray-800">Géneros</h1>
           <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>-->
-      <?php     
-            $(document).ready(function() 
-    { 
-        $(".tablesorter").tablesorter(); 
-    } 
-);?>
+          
+
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-1">
@@ -181,81 +174,36 @@ include_once('inc/header.php');
               <span class="m-0 font-weight-bold text-primary">Borrador()</span>
               <span class="m-0 font-weight-bold text-primary">|</span>
               <span class="m-0 font-weight-bold text-primary">Pendiente()</span>
-              <a href="new-pelicula.php"><input class="btn btn-danger" type="submit" value="Añadir Producto"></a>
+              <a href="new-genero.php"><input class="btn btn-danger" type="submit" value="Añadir Género"></a>
               <input class="btn btn-danger" type="submit" value="Importar">
               <input class="btn btn-danger" type="submit" value="Exportar">
             </div>
             <div class="card-body">
               <div class="table-responsive">
-              <form method="POST"  enctype="multipart/form-data">
-                
-                <div style="overflow-x:auto;">
-                <table class="table table-bordered tablesorter"  id="tablajson" width="100%" cellspacing="0">
+              <form method="POST" action="edit-pelicula.php" enctype="multipart/form-data">
+                <table class="table table-bordered" id="tablajson" width="100%" cellspacing="0">
                   <thead>
                     <tr align="center">
-                      <th>fecha</th>
+                      <th>ID</th>
                       <th>Nombre</th>
-                      <th>Imagen</th>
-                      <th>Precio</th>
-                      <th>Clasificacion</th>
-                      <th>Genero</th>
-                      <th>Duracion</th>                                            
-                      <th>Año</th>
-                      <th>Directores</th>
-                      <th>Actores</th>
-                      <th>Descripcion</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                   <?php
-                  foreach(json_decode(file_get_contents('../datos/productos.json'), true) as $peli){ ?>
+                  foreach(json_decode(file_get_contents('../datos/categorias.json'), true) as $cat){ ?>
                     <tr align="center">
-                    <td><?php echo $peli['id']; ?></td>
-                      <td><?php echo $peli['nombre']; ?></td>
-                      <td><img src="<?php 
-                                        if (is_array($peli['imagen'])) {
-                                           echo 'img/'.$peli['imagen']['name'];
-                                        } else {
-                                        echo '../images/'.$peli['imagen'];
-                                        };
-                          ?>" width="150px" height=200px></td>
-                      <td><?php echo $peli['precio']; ?></td>
-                      <td><?php echo $peli['clasificacion']; ?></td>
-                      <td><?php 
-
-                        if (is_array($peli['genero'])) {
-                        
-                        foreach ($peli['genero'] as $gen) {
-                          
-		                      $categorias = json_decode(file_get_contents('../datos/categorias.json'),true);
-                          
-                          echo ''.$categorias[$gen]['nombre'].'<br>'; 
-                          
-                        };
-                      } 
-                      ?>
-                      </td>
-                      <td><?php echo $peli['duracion']; ?></td>
-                      <td><?php echo $peli['anio']; ?></td>
-                      <td><?php echo $peli['director']; ?></td>
-                      <td><?php echo $peli['actores']; ?></td>
-                      <td>
-                      <button type='button' data-toggle="collapse" data-target="#descripcion<?php echo $peli['id']; ?>" class="btn btn-danger">Descripcion</button>
-                      <div id="descripcion<?php echo $peli['id']; ?>" class="collapse">
-                      <?php echo $peli['descripcion']; ?>
-                      </div>
-                      </td>
+                    <td><?php echo $cat['id']; ?></td>
+                      <td><?php echo $cat['nombre']; ?></td>
                       <td><center>
-                      <a href="edit-pelicula.php?edit=<?php echo $peli['id'];?>"><i class="fas fa-edit"></a></i>&nbsp;&nbsp;
-                      <a href="peliculas.php?del=<?php echo $peli['id'];?>"><i class="fas fa-trash-alt"></i></a></i></center>
+                      <a href="edit-genero.php?edit=<?php echo $cat['id'];?>"><i class="fas fa-edit"></a></i>&nbsp;&nbsp;
+                      <a href="generos.php?del=<?php echo $cat['id'];?>"><i class="fas fa-trash-alt"></i></a></i></center>
                       </td>
                     </tr>
                   <?php } ?>
                   </tbody>
                   <tbody>
                 </table>
-                </div>
               </form>
               </div>
             </div>

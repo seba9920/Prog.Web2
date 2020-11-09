@@ -109,3 +109,6 @@ hr.soften {margin: 8px 0;background: #DDD;}
 #gototop{margin-top:1px;}
 #footerMenu a{ font-size:12px; text-transform:lowercase}
 .peliculas{min-height: 100px;}
+.mi-input::placeholder { color: white; text-align: center   ;}
+
+

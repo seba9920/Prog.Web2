@@ -1,7 +1,10 @@
 <div class="well well-small">
-	<h3>Categorías</h3>
+	<h3>Generos</h3>
 	<ul class="nav nav-list"> 
-	<?php include('datos/categorias.php');
+	<?php 
+	$catdatos = file_get_contents('datos/categorias.json');
+	$categorias = json_decode($catdatos,true);
+	
 		foreach($categorias as $cat){
 	?>
 			<li><a href="products.php?cat=<?php echo $cat['id']?>&clasificacion=<?php echo isset($_GET['clasificacion'])?$_GET['clasificacion']:'' ?>"><span class="icon-chevron-right"></span><?php echo $cat['nombre']?></a></li>
@@ -12,7 +15,10 @@
 <div class="well well-small">		
 		<h3>Clasificacion por edades</h3>
 		<ul class="nav nav-list"> 
-		<?php include('datos/marcas.php');
+		<?php 
+		$mardatos = file_get_contents('datos/clasificacion.json');
+		$marcas = json_decode($mardatos,true);
+		
 		foreach($marcas as $mar){
 	?>
 			<li><a href="products.php?cat=<?php echo isset($_GET['cat'])?$_GET['cat']:'' ?>&clasificacion=<?php echo $mar['nombre']?>"><span class="icon-chevron-right"></span><?php echo $mar['nombre']?></a></li>

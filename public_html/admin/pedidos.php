@@ -152,7 +152,7 @@ include_once('inc/header.php');
                   <tbody>
                     <tr align="center">
                       <td>Proyecto Power</td>
-                      <td><img src="../images/proyecto_power.jpg" width="150px" height=200px></td>
+                      <td><img src="../generos/images/proyecto_power.jpg" width="150px" height=200px></td>
                       <td>Accion, Ciencia Ficcion</td>
                       <td>$150.00</td>
                       <td>+16</td>
@@ -163,7 +163,7 @@ include_once('inc/header.php');
                     </tr>
                     <tr align="center">
                       <td>Proyecto Power</td>
-                      <td><img src="../images/proyecto_power.jpg" width="150px" height=200px></td>
+                      <td><img src="../generos/images/proyecto_power.jpg" width="150px" height=200px></td>
                       <td>Accion, Ciencia Ficcion</td>
                       <td>$150.00</td>
                       <td>+16</td>
@@ -174,7 +174,7 @@ include_once('inc/header.php');
                     </tr>
                     <tr align="center">
                       <td>Proyecto Power</td>
-                      <td><img src="../images/proyecto_power.jpg" width="150px" height=200px></td>
+                      <td><img src="../generos/images/proyecto_power.jpg" width="150px" height=200px></td>
                       <td>Accion, Ciencia Ficcion</td>
                       <td>$150.00</td>
                       <td>+16</td>
@@ -185,7 +185,7 @@ include_once('inc/header.php');
                     </tr>
                     <tr align="center">
                       <td>Proyecto Power</td>
-                      <td><img src="../images/proyecto_power.jpg" width="150px" height=200px></td>
+                      <td><img src="../generos/images/proyecto_power.jpg" width="150px" height=200px></td>
                       <td>Accion, Ciencia Ficcion</td>
                       <td>$150.00</td>
                       <td>+16</td>

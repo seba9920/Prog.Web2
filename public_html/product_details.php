@@ -1,5 +1,41 @@
 <?php
-	include_once('inc/header.php');
+include_once('inc/header.php');
+include_once('admin/functions/funcs.php');
+
+//obtengo el contenido del archivo
+$datos = file_get_contents('datos/comentarios.json');
+//convierto a un array
+$datosJson = json_decode($datos,true);
+
+    if(isset($_POST['add'])){
+        
+    
+        if(isset($_GET['edit'])){
+            //modificando
+            $id = $_GET['edit'];
+        }else{
+            //agrego 
+            $id = date('j/n/Y, H:i:s');
+        }
+
+
+
+        $datosJson[$id] = array('id'=>$id,'idusuario'=>$_POST['tName'], 'idpelicula'=>$_POST['tName'],
+         'comentario'=>$_POST['tApellido'],'valoracion'=>$_POST['tFecha']);
+    
+        //trunco el archivo
+        $fp = fopen('datos/comentarios.json','w');
+        //convierto a json string
+        $datosString = json_encode($datosJson);
+        //guardo el archivo
+        fwrite($fp,$datosString);
+        fclose($fp);
+        redirect('');
+    }
+
+    if(isset($_GET['edit'])){
+        $dato = $datosJson[$_GET['edit']];
+    }
 ?>
 <!-- 
 Body Section 
@@ -10,16 +46,16 @@ Body Section
 	</div>
 
 	<?php
-		  include('datos/productos.php');
+		  $productos = json_decode(file_get_contents('datos/productos.json'),true);
 		  
 		  $columns = array_column($productos, 'clasificacion');
           array_multisort($columns, SORT_DESC, $productos);
            
-		  include('datos/categorias.php');
+		  
 
 		  	foreach($productos as $prod){
 				
-				if($prod['activo']==true){
+				
 				$imprimir=true;
 
 					
@@ -37,20 +73,43 @@ Body Section
 	<div class="row-fluid">
 			      <div class="span5">
 			      
-				  <img src="images/<?php echo $prod['imagen'] ?>" alt="">
+				  <img src="
+				  <?php 
+						if (is_array($prod['imagen'])) {
+							echo 'admin/img/'.$prod['imagen']['name'];
+						} else {
+						echo 'images/'.$prod['imagen'];
+						};
+                          ?>
+				  
+				  " alt="">
 			</div>
 			<div class="span7">
 				<h3><?php echo $prod['nombre']?></h3>
 				<hr class="soft"/>
 				
 				
-				<p>Genero: <?php echo $prod['genero']?></p>
+				<p><strong>Genero:</strong> 
+				<?php 
+
+                        if (is_array($prod['genero'])) {
+                        
+                        foreach ($prod['genero'] as $gen) {
+                          
+		                      $categorias = json_decode(file_get_contents('datos/categorias.json'),true);
+                          
+                          echo $categorias[$gen]['nombre'].', ';
+                          
+                        };
+                      } 
+                      ?>
+				</p>
 				<br>
-				<p>Precio: $<?php echo $prod['precio']?></p>
+				<p><strong>Precio:</strong> $<?php echo $prod['precio']?></p>
 				<br>
-				<p>Clasificacion por edades: <?php echo $prod['clasificacion']?></p>
+				<p><strong>Clasificacion por edades:</strong> <?php echo $prod['clasificacion']?></p>
 				<br>
-				<p>Año: <?php echo $prod['anio']?></p>
+				<p><strong>Año:</strong> <?php echo $prod['anio']?></p>
 		</div>
 			</div>
 				<hr class="softn clr"/>
@@ -79,7 +138,13 @@ Body Section
  </div>
  <div class="well well-lg cntr">
 			<div class="row-fluid ">
-			    
+			    	  
+					  
+					  <!-- ***************************************************************** -->
+					  <!-- MODIFICAR QUE SE MUESTRE CUANDO EL USUARIO INICIO SESION -->
+					  <!-- ***************************************************************** -->
+
+
 			    <h4>Comentarios</h4>
 		<form class="form-horizontal">
         <fieldset>
@@ -113,7 +178,7 @@ Body Section
 
 <?php
 break;
-			}}}
+			}}
 			?>
 			
 

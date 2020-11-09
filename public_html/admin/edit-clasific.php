@@ -1,44 +1,39 @@
 <?php
 include_once('functions/funcs.php');
 
-$datos = file_get_contents('../datos/productos.json');
-//echo $datos['imagen']['name'];
 
-if(isset($_GET['del'])){
-  //eliminacion de archivo imagen
-/*   foreach(file_get_contents('productos.json', true) as $a) {
-   $files = glob('img/'.$a['imagen']['name']); //obtenemos todos los nombres de los ficheros
-  } */
-    $datos = file_get_contents('../datos/productos.json');
-    $datosJson = json_decode($datos,true);
-    $eliminarimg= $datos['imagen']['name'];
-    imagedestroy('img/'.$eliminarimg);
+//obtengo el contenido del archivo
+$datos = file_get_contents('../datos/clasificacion.json');
+//convierto a un array
+$datosJson = json_decode($datos,true);
 
+    if(isset($_POST['add'])){
+        
+    
+        if(isset($_GET['edit'])){
+            //modificando
+            $id = $_GET['edit'];
+        }else{
+            //agrego 
+            $id = date('Ymdhis');
+        }
 
-  //fin eliminacion archivo imagen
-  foreach($files as $file){
-      if(is_file($file))
-      unlink($file); //elimino el fichero
-  } 
-    //obtengo el contenido del archivo
-    $datos = file_get_contents('../datos/productos.json');
-    //convierto a un array
-    $datosJson = json_decode($datos,true);
-    //var_dump($datosJson);
-    //borro del array
-    unset($datosJson[$_GET['del']]);
-    //trunco el archivo
-    $fp = fopen('../datos/productos.json','w');
-    //convierto a json string
-    $datosString = json_encode($datosJson);
-    //guardo el archivo
-    fwrite($fp,$datosString);
-    fclose($fp);
+        $datosJson[$id] = array('id'=>$id, 'nombre'=>$_POST['tName'],'descripcion'=>$_POST['tDescripcion']);
+    
+        //trunco el archivo
+        $fp = fopen('../datos/clasificacion.json','w');
+        //convierto a json string
+        $datosString = json_encode($datosJson);
+        //guardo el archivo
+        fwrite($fp,$datosString);
+        fclose($fp);
+        redirect('clasificacion.php');
+    }
 
-    redirect('peliculas.php');
-}
+    if(isset($_GET['edit'])){
+        $dato = $datosJson[$_GET['edit']];
+    }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -60,12 +55,11 @@ if(isset($_GET['del'])){
 
   <!-- Custom styles for this template -->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="css/estilos.css" rel="stylesheet">
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script type="text/javascript" src="jquery.tablesorter.js"></script> 
 </head>
 
 <body id="page-top">
@@ -163,100 +157,33 @@ include_once('inc/header.php');
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Peliculas</h1>
+          <h1 class="h3 mb-2 text-gray-800">Editar Clasificación</h1>
           <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>-->
-      <?php     
-            $(document).ready(function() 
-    { 
-        $(".tablesorter").tablesorter(); 
-    } 
-);?>
+          
+
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-1">
-              <span class="m-0 font-weight-bold text-primary">Todo()</span>
-              <span class="m-0 font-weight-bold text-primary">|</span>
-              <span class="m-0 font-weight-bold text-primary">Publicado()</span>
-              <span class="m-0 font-weight-bold text-primary">|</span>
-              <span class="m-0 font-weight-bold text-primary">Borrador()</span>
-              <span class="m-0 font-weight-bold text-primary">|</span>
-              <span class="m-0 font-weight-bold text-primary">Pendiente()</span>
-              <a href="new-pelicula.php"><input class="btn btn-danger" type="submit" value="Añadir Producto"></a>
-              <input class="btn btn-danger" type="submit" value="Importar">
-              <input class="btn btn-danger" type="submit" value="Exportar">
+            <a href="new-clasific.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo" style="float: right;"></a>
             </div>
             <div class="card-body">
               <div class="table-responsive">
-              <form method="POST"  enctype="multipart/form-data">
-                
-                <div style="overflow-x:auto;">
-                <table class="table table-bordered tablesorter"  id="tablajson" width="100%" cellspacing="0">
-                  <thead>
-                    <tr align="center">
-                      <th>fecha</th>
-                      <th>Nombre</th>
-                      <th>Imagen</th>
-                      <th>Precio</th>
-                      <th>Clasificacion</th>
-                      <th>Genero</th>
-                      <th>Duracion</th>                                            
-                      <th>Año</th>
-                      <th>Directores</th>
-                      <th>Actores</th>
-                      <th>Descripcion</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <?php
-                  foreach(json_decode(file_get_contents('../datos/productos.json'), true) as $peli){ ?>
-                    <tr align="center">
-                    <td><?php echo $peli['id']; ?></td>
-                      <td><?php echo $peli['nombre']; ?></td>
-                      <td><img src="<?php 
-                                        if (is_array($peli['imagen'])) {
-                                           echo 'img/'.$peli['imagen']['name'];
-                                        } else {
-                                        echo '../images/'.$peli['imagen'];
-                                        };
-                          ?>" width="150px" height=200px></td>
-                      <td><?php echo $peli['precio']; ?></td>
-                      <td><?php echo $peli['clasificacion']; ?></td>
-                      <td><?php 
-
-                        if (is_array($peli['genero'])) {
-                        
-                        foreach ($peli['genero'] as $gen) {
-                          
-		                      $categorias = json_decode(file_get_contents('../datos/categorias.json'),true);
-                          
-                          echo ''.$categorias[$gen]['nombre'].'<br>'; 
-                          
-                        };
-                      } 
-                      ?>
-                      </td>
-                      <td><?php echo $peli['duracion']; ?></td>
-                      <td><?php echo $peli['anio']; ?></td>
-                      <td><?php echo $peli['director']; ?></td>
-                      <td><?php echo $peli['actores']; ?></td>
-                      <td>
-                      <button type='button' data-toggle="collapse" data-target="#descripcion<?php echo $peli['id']; ?>" class="btn btn-danger">Descripcion</button>
-                      <div id="descripcion<?php echo $peli['id']; ?>" class="collapse">
-                      <?php echo $peli['descripcion']; ?>
-                      </div>
-                      </td>
-                      <td><center>
-                      <a href="edit-pelicula.php?edit=<?php echo $peli['id'];?>"><i class="fas fa-edit"></a></i>&nbsp;&nbsp;
-                      <a href="peliculas.php?del=<?php echo $peli['id'];?>"><i class="fas fa-trash-alt"></i></a></i></center>
-                      </td>
-                    </tr>
-                  <?php } ?>
-                  </tbody>
-                  <tbody>
-                </table>
-                </div>
-              </form>
+                    <form method="POST" action="" name="prod" enctype="multipart/form-data">
+                      <table class="table bg-gradient-dark text-white" id="dataTable" width="100%" cellspacing="0">
+                      <tr>
+                          <td align="right"><label for="txtName">Nombre:</label</td>
+                          <td><input type="text" id="txtName" name="tName" value="<?php echo isset($dato)?$dato['nombre']:''?>" size="50" class="bg-danger text-white"></td>
+                        </tr>
+                        <tr>
+                          <td align="right"><label for="txtDescripcion">Descripción:</label</td>
+                          <td align="left"><textarea id="txtDescripcion" name="tDescripcion" cols="80" rows="5" class="bg-danger text-white"><?php echo isset($dato)?$dato['descripcion']:''?></textarea></td>
+                        </tr>                            
+                        <tr>
+                          <td align="right"><input type="submit" name="add" value="Guardar" class="btn btn-danger"></td>
+                          <td align="left"><input type="reset" value="Borrar" class="btn btn-danger"></td>
+                        </tr>                         
+                      </table>
+                    </form>
               </div>
             </div>
           </div>
@@ -311,7 +238,6 @@ include_once('inc/header.php');
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>

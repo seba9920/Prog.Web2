@@ -1,4 +1,6 @@
-<?php include('datos/productos.php');
+<?php
+
+$productos = json_decode(file_get_contents('datos/productos.json'),true);
 $columns = array_column($productos, 'anio');
 array_multisort($columns, SORT_DESC, $productos);?>
 
