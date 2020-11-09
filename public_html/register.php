@@ -1,6 +1,6 @@
 <?php include('inc/header.php');?>
 <!-- 
-Body Section 
+Body Section
 -->
 	<div class="row">
 	<div class="span12">
