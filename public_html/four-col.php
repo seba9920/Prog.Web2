@@ -2,17 +2,7 @@
 $seccion='four';
 include_once('inc/header.php');
 ?> 
-hola
-hola
-hola
-hola
-os
-<!-- 
-Body Section 
--->
-<!--
-Three column view
--->
+
 	<h3>Three Column Product view </h3>
 	<?php  $productos = array(
 		1 => array( 'nombre' => 'nombre1', 'precio' => '22.00', 'imagen' => 'a.jpg'),
