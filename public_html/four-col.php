@@ -2,6 +2,11 @@
 $seccion='four';
 include_once('inc/header.php');
 ?> 
+hola
+hola
+hola
+hola
+os
 <!-- 
 Body Section 
 -->
