@@ -2,7 +2,7 @@
 include_once('functions/funcs.php');
 
 //obtengo el contenido del archivo
-$datos = file_get_contents('../datos/usuarios.json');
+$datos = file_get_contents('../datos/comentarios.json');
 //convierto a un array
 $datosJson = json_decode($datos,true);
 
@@ -20,21 +20,19 @@ $datosJson = json_decode($datos,true);
         
       
 
-        $datosJson[$id] = array('id'=>$id,'tipo'=>$_POST['tTipo'], 'nombre'=>$_POST['tName'], 'apellido'=>$_POST['tApellido'],
-         'fecha'=>$_POST['tFecha'], 'user'=>$_POST['tUser'], 'email'=>$_POST['tEmail'], 'pass'=>$_POST['tPass'], 'direccion'=>$_POST['tDireccion'],
-         'telefono'=>$_POST['tTel'], 'pedidos'=>$_POST['tPed'], 'dinero gastado'=>$_POST['tDinGas']);
+        $datosJson[$id] = array('id'=>$id,'user'=>$_POST['tUser'], 'rating'=>$_POST['tRating'], 'comentario'=>$_POST['tComentario']);
          
         //echo '<pre>';
         // var_dump($datosJson);
         // echo '</pre>';
         //trunco el archivo
-        $fp = fopen('../datos/usuarios.json','w');
+        $fp = fopen('../datos/comentaios.json','w');
         //convierto a json string
         $datosString = json_encode($datosJson);
         //guardo el archivo
         fwrite($fp,$datosString);
         fclose($fp);
-        redirect('user.php');
+        redirect('comentarios.php');
     }
 
     if(isset($_GET['edit'])){
@@ -194,76 +192,26 @@ include_once('inc/header.php');
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-1">
-            <a href="new-user.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo" style="float: right;"></a>
+            <a href="new-comentario.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo" style="float: right;"></a>
             </div>
             <div class="card-body">
               <div class="table-responsive">
                     <form method="POST" action="" name="com" enctype="multipart/form-data">
                       <table class="table bg-gradient-dark text-white" id="dataTable" width="100%" cellspacing="0">
                         <tr>
-                          <td align="right"><label for="txtName">Tipo:</label</td>
-                          <td>
-                          <select name="tTipo" id="#tipo" class="bg-danger text-white">
-                          <option class="bg-danger text-white" value="Admin"
-                          <?php if($dato['tipo']=="Admin" ){
-                              echo 'selected="selected"';
-                            }?>
-                          > Admin </option>
-                          <option class="bg-danger text-white" value="Cliente"
-                           <?php if($dato['tipo']=="Cliente" ){
-                              echo 'selected="selected"';
-                            }?>
-                          > Cliente </option>
-                          
-                          
-                          </select>
-                          </td>
-                        </tr>
-                       <tr>
-                          <td align="right"><label for="txtName">Nombre:</label</td>
-                          <td><input type="text" id="txtName" name="tName" value="<?php echo isset($dato)?$dato['nombre']:''?>" size="50" class="bg-danger text-white"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtApellido">Apellido:</label</td>
-                          <td><input type="text" id="txtApellido" name="tApellido" value="<?php echo isset($dato)?$dato['apellido']:''?>" size="50" class="bg-danger text-white"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtFecha">Fecha de nacimiento:</label</td>
-                          <td><input type="date" id="txtFecha" name="tFecha" value="<?php echo isset($dato)?$dato['fecha']:''?>" size="10" class="bg-danger text-white"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtUser">User:</label</td>
+                          <td align="right"><label for="txtUser">Usuario:</label</td>
                           <td><input type="text" id="txtUser" name="tUser" value="<?php echo isset($dato)?$dato['user']:''?>" size="50" class="bg-danger text-white"></td>
                         </tr>
-
                         <tr>
-                          <td align="right"><label for="txtEmail">Email:</label</td>
-                          <td><input type="text" id="txtEmail" name="tEmail" value="<?php echo isset($dato)?$dato['email']:''?>" size="50" class="bg-danger text-white"></td>
+                          <td align="right"><label for="txtRating">Rating:</label</td>
+                          <td><input type="text" id="txtRating" name="tRating" value="<?php echo isset($dato)?$dato['rating']:''?>" size="50" class="bg-danger text-white"></td>
                         </tr>
 
                         <tr>
-                          <td align="right"><label for="txtPass">Password:</label</td>
-                          <td><input type="password" id="txtPass" name="tPass" value="<?php echo isset($dato)?$dato['pass']:''?>"  size="50" class="bg-danger text-white"></td>
-                        </tr>
-
+                          <td align="right"><label for="txtComentario">Comentario:</label</td>
+                          <td align="left"><textarea id="txtComentario" name="tComentario" cols="80" rows="5" class="bg-danger text-white"><?php echo isset($dato)?$dato['comentario']:''?></textarea></td>
+                        </tr>                            
                         <tr>
-                          <td align="right"><label for="txtDireccion">Direccion:</label</td>
-                          
-                          <td>
-                          <input type="text" id="txtDireccion" placeholder="Calle" name="tDireccion[calle]" value="<?php echo isset($dato)?$dato['direccion']['calle']:''?>" size="15" class="bg-danger text-white mi-input">
-                          <input type="text" id="txtDireccion" placeholder="Altura" name="tDireccion[altura]" value="<?php echo isset($dato)?$dato['direccion']['altura']:''?>" size="5" class="bg-danger text-white mi-input">
-                          <input type="text" id="txtDireccion" placeholder="Piso" name="tDireccion[piso]" value="<?php echo isset($dato)?$dato['direccion']['piso']:''?>" size="5" class="bg-danger text-white mi-input" >
-                          <input type="text" id="txtDireccion" placeholder="Depto" name="tDireccion[depto]" value="<?php echo isset($dato)?$dato['direccion']['depto']:''?>" size="5" class="bg-danger text-white mi-input">
-                          <input type="text" id="txtDireccion" placeholder="Barrio" name="tDireccion[barrio]" value="<?php echo isset($dato)?$dato['direccion']['barrio']:''?>" size="15" class="bg-danger text-white mi-input"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtTelefono">Telefono:</label</td>
-                          <td><input type="text" id="txtTelefono" name="tTel" value="<?php echo isset($dato)?$dato['telefono']:''?>" size="50" class="bg-danger text-white"></td>
-                        </tr>
 
                         <tr>
                           <td align="right"><input type="submit" name="add" value="Guardar" class="btn btn-danger"></td>

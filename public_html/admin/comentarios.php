@@ -11,7 +11,8 @@ if(isset($_GET['del'])){
   } */
     $datos = file_get_contents('../datos/comentarios.json');
     $datosJson = json_decode($datos,true);
-    
+    $eliminarimg= $datos['imagen']['name'];
+    imagedestroy('img/'.$eliminarimg);
 
 
   //fin eliminacion archivo imagen
@@ -38,6 +39,8 @@ if(isset($_GET['del'])){
 }
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +52,7 @@ if(isset($_GET['del'])){
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Admin-Peliculas</title>
+  <title>Panel-Admin</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -68,7 +71,7 @@ if(isset($_GET['del'])){
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-  <?php
+<?php
 include_once('inc/header.php');
 ?> 
 
@@ -158,7 +161,7 @@ include_once('inc/header.php');
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Gestionar Clientes</h1>
+          <h1 class="h3 mb-2 text-gray-800">Comentarios</h1>
           <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>-->
           
 
@@ -172,52 +175,44 @@ include_once('inc/header.php');
               <span class="m-0 font-weight-bold text-primary">Borrador()</span>
               <span class="m-0 font-weight-bold text-primary">|</span>
               <span class="m-0 font-weight-bold text-primary">Pendiente()</span>
-              <a href="new-comentarios.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo"></a>
-              <input class="btn btn-danger" type="submit" value="Imprimir">
-              <input class="btn btn-danger" type="submit" value="PDF">
-              <input class="btn btn-danger" type="submit" value="CSV">
+              <a href="new-comentario.php"><input class="btn btn-danger" type="submit" value="Añadir Comentario"></a>
+              <input class="btn btn-danger" type="submit" value="Importar">
+              <input class="btn btn-danger" type="submit" value="Exportar">
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
+              <form method="POST"  enctype="multipart/form-data">
+                
+                <div style="overflow-x:auto;">
+                <table class="table table-xl-responsive-borderless"  id="tablajson" width="100%" cellspacing="0">
+                  <thead class="thead-dark">
                     <tr align="center">
-                      <th>ID</th>
-                      <th>Nombre y Apellido</th>
-                      <th>Fecha de nacimiento</th>
-                      <th>Email</th>
-                      <th>Direccion</th>
-                      <th>Telefono</th>
-                      <th>Pedidos</th>
-                      <th>Dinero Gastado</th>
+                      <th>Fecha</th>
+                      <th>Usuario</th>
+                      <th>Rating</th>
+                      <th>Comentario</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                   <?php
-                  foreach(json_decode(file_get_contents('../datos/comentarios.json'), true) as $com){ ?>
+                  foreach(json_decode(file_get_contents('../datos/comentarios.json'), true) as $peli){ ?>
                     <tr align="center">
-                      <td><?php echo $com['id']; ?></td>
-                      <td><?php echo $com['nombre'].' '.$com['apellido'] ?></td>
-                      <td><?php echo $com['fecha']; ?></td>
-                      <td><?php echo $com['email']; ?></td>
-                      <td><?php echo $com['direccion']['calle'].' '.
-                                     $com['direccion']['altura'].' '.
-                                     $com['direccion']['piso'].'º'.
-                                     $com['direccion']['depto'].' '.
-                                     $com['direccion']['barrio']; ?></td>
-                      <td><?php echo $com['telefono']; ?></td>
-                      <td><?php /* echo $com['pedidos']; */ ?></td>
-                      <td><?php /* echo $com['dineroGastado']; */ ?></td>
-
+                    <td><?php echo $peli['id']; ?></td>
+                      <td><?php echo $peli['user']; ?></td>
+                      <td><?php echo $peli['rating']; ?></td>
+                      <td><?php echo $peli['comentario']; ?></td>
                       <td><center>
-                      <a href="edit-comentarios.php?edit=<?php echo $com['id'];?>"><i class="fas fa-edit"></a></i>&nbsp;&nbsp;
-                      <a href="comentarios.php?del=<?php echo $com['id'];?>"><i class="fas fa-trash-alt"></i></a></i></center>
+                      <a href="edit-comentario.php?edit=<?php echo $peli['id'];?>"><i class="fas fa-edit"></a></i>&nbsp;&nbsp;
+                      <a href="comentarios.php?del=<?php echo $peli['id'];?>"><i class="fas fa-trash-alt"></i></a></i></center>
                       </td>
                     </tr>
                   <?php } ?>
                   </tbody>
+                  <tbody>
                 </table>
+                </div>
+              </form>
               </div>
             </div>
           </div>
@@ -267,11 +262,13 @@ include_once('inc/header.php');
         </div>
       </div>
     </div>
-  </div>
+  </div>            
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <!--<script src="vendor/jquery/jquery.min.js"></script>-->
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -285,6 +282,17 @@ include_once('inc/header.php');
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+  
+  
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+   $(document).ready(function() {
+    $('#tablajson').DataTable();
+    } );
+   
+   </script> 
 
 </body>
 

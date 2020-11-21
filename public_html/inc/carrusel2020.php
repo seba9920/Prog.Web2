@@ -11,12 +11,14 @@ $mostrar = '0';
             if ($prod['anio'] < '2015' && $mostrar <= '3') {
                 $mostrar++;
  ?>
-            
-                <li class="span3">
-                <h3><?php echo $prod['anio']?></h3>
-                     <div class="thumbnail">
-                        <a class="zoomTool" href="product_details.php?id=<?php echo $prod['id']?>" title="add to cart"><span class="icon-search"></span>Detalles</a>
-                        <a href="product_details.php?id=<?php echo $prod['id']?>"><img src="images/<?php echo $prod['imagen'] ?>" alt=""></a>
-                    </div>
-                </li>
+            <div class="col-lg-3">
+                <h5><?php echo $prod['anio']?></h5>
+
+                        <a href="product-details.php?id=<?php echo $prod['id']?>"><img class="img-fluid" src="images/<?php echo $prod['imagen'] ?>" alt=""></a>
+                        <h4><?php echo $prod['nombre']?></h4>
+                        <p><strong> $<?php echo $prod['precio'] ?> </strong></p>
+                        <h4><a class="btn btn-warning" href="product-details.php?id=<?php echo $prod['id']?>" title="add to cart"> Detalles </a></h4>
+
+                  
+            </div>                
         <?php }  }?>

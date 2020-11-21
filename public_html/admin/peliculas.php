@@ -1,5 +1,5 @@
 <?php
-include_once('functions/funcs.php');
+
 
 $datos = file_get_contents('../datos/productos.json');
 //echo $datos['imagen']['name'];
@@ -64,8 +64,6 @@ if(isset($_GET['del'])){
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script type="text/javascript" src="jquery.tablesorter.js"></script> 
 </head>
 
 <body id="page-top">
@@ -73,90 +71,12 @@ if(isset($_GET['del'])){
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-<?php
+  <?php
 include_once('inc/header.php');
+
 ?> 
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <form class="form-inline">
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
-            </button>
-          </form>
-
-          <!-- Topbar Search
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form> -->
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Usuario</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Perfil
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Ajustes
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Salir
-                </a>
-              </div>
-            </li>
-
-          </ul>
-
-        </nav>
+   
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -165,12 +85,8 @@ include_once('inc/header.php');
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Peliculas</h1>
           <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>-->
-      <?php     
-            $(document).ready(function() 
-    { 
-        $(".tablesorter").tablesorter(); 
-    } 
-);?>
+          
+
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-1">
@@ -190,10 +106,10 @@ include_once('inc/header.php');
               <form method="POST"  enctype="multipart/form-data">
                 
                 <div style="overflow-x:auto;">
-                <table class="table table-bordered tablesorter"  id="tablajson" width="100%" cellspacing="0">
-                  <thead>
+                <table class="table table-xl-responsive-borderless"  id="tablajson" width="100%" cellspacing="0">
+                  <thead class="thead-dark">
                     <tr align="center">
-                      <th>fecha</th>
+                      <th>Fecha</th>
                       <th>Nombre</th>
                       <th>Imagen</th>
                       <th>Precio</th>
@@ -213,13 +129,13 @@ include_once('inc/header.php');
                     <tr align="center">
                     <td><?php echo $peli['id']; ?></td>
                       <td><?php echo $peli['nombre']; ?></td>
-                      <td><img src="<?php 
+                      <td><img class="img-fluid" src="<?php 
                                         if (is_array($peli['imagen'])) {
                                            echo 'img/'.$peli['imagen']['name'];
                                         } else {
                                         echo '../images/'.$peli['imagen'];
                                         };
-                          ?>" width="150px" height=200px></td>
+                          ?>" ></td>
                       <td><?php echo $peli['precio']; ?></td>
                       <td><?php echo $peli['clasificacion']; ?></td>
                       <td><?php 
@@ -241,7 +157,9 @@ include_once('inc/header.php');
                       <td><?php echo $peli['director']; ?></td>
                       <td><?php echo $peli['actores']; ?></td>
                       <td>
-                      <button type='button' data-toggle="collapse" data-target="#descripcion<?php echo $peli['id']; ?>" class="btn btn-danger">Descripcion</button>
+                      <!--<button type='button' data-toggle="collapse" data-target="#descripcion<?php echo $peli['id']; ?>" class="btn btn-danger">Descripcion</button>-->
+                      <button type='button' onclick="alert('<?php echo $peli['descripcion']; ?>')" class="btn btn-danger">Descripcion</button>
+                      
                       <div id="descripcion<?php echo $peli['id']; ?>" class="collapse">
                       <?php echo $peli['descripcion']; ?>
                       </div>
@@ -306,10 +224,11 @@ include_once('inc/header.php');
         </div>
       </div>
     </div>
-  </div>
+  </div>            
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <!--<script src="vendor/jquery/jquery.min.js"></script>-->
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
@@ -325,6 +244,17 @@ include_once('inc/header.php');
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+  
+  
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+   $(document).ready(function() {
+    $('#tablajson').DataTable();
+    } );
+   
+   </script> 
 
 </body>
 

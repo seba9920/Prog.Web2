@@ -92,7 +92,7 @@ if(isset($_FILES['tImg'])){
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet"/>
+
 </head>
 
 <body id="page-top">

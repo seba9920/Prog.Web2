@@ -1,85 +1,73 @@
-<?php
-$seccion='index';
-include_once('inc/header.php');
-?> 
-<!-- 
-Body Section 
--->
-<div class="row">
 
-	<div class="span12">
-	<div class="well np">
-		<div id="myCarousel" class="carousel slide homCar">
-            <div class="carousel-inner">
-			  <div class="item">
-			  <a href="product_details.php?id=48"><img style="width:100%" src="images/carrusel/bohemian_rhapsody_carrusel.jpg" alt="Bohemian Rhapsody"></a>
-                <div class="carousel-caption">
-                      <h4>Bohemian Rhapsody</h4>
-                </div>
-              </div>
-			  <div class="item">
-			  <a href="product_details.php?id=1"><img style="width:100%" src="images/carrusel/the_godfather_carrusel.jpg" alt="The Godfather"></a>
-                <div class="carousel-caption">
-                      <h4>The Godfather</h4>
-                </div>
-              </div>
-			  <div class="item active">
-			  <a href="product_details.php?id=66"><img style="width:100%" src="images/carrusel/the_shawshank_redemption_carrusel.jpg" alt="The Shawshank Redemption"></a>
-                <div class="carousel-caption">
-                      <h4>The Shawshank Redemption</h4>
-                </div>
-              </div>
-            </div>
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
-          </div>
+<?php include('inc/header.php'); ?>
+        
+    <section>      
+        <div class="container">
+                <div class="texto-bienvenida">
+                    <h1>Bienvenido a nuestra tienda de Peliculas</h1>
+                </div>    
         </div>
-<!--
-New Products
--->
-	<div class="well well-small">
-	<h3>Mejores Peliculas </h3>
-	<hr class="soften"/>
-		<div class="row-fluid">
-		<div id="newProductCar" class="carousel slide">
-            <div class="carousel-inner">
-			<div class="item active">
-			  <ul class="thumbnails">
-				<?php 
-				include('inc/carrusel2019.php');
-				?>
-				
-			  </ul>
-			  </div>
-		   <div class="item">
-		  <ul class="thumbnails">
-			<?php 
-			include('inc/carrusel2020.php');
-			?>
-		  </ul>
-		  </div>
-		   </div>
-		  <a class="left carousel-control" href="#newProductCar" data-slide="prev">&lsaquo;</a>
-            <a class="right carousel-control" href="#newProductCar" data-slide="next">&rsaquo;</a>
-		  </div>
-		  </div>
-		
-		<hr class="soften"/>
-		<h3>Ultimos Lanzamientos </h3>
-		<hr class="soften"/>
-		
-		<div class="row-fluid">
-		  <ul class="thumbnails">
-			
-			<?php 
-			include('inc/pelis_nuevas.php');
-			?>
+    </section>
 
-			
-		  </ul>
-		</div>
-	</div>
-	
-	</div>
-	</div>
+    <section>
+        <div class="container">
+            <div class="carrousel">
+                <div class="row">
+                    <div class="col">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                          <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                          </ol>
+                          <div class="carousel-inner">
+                            <div class="carousel-item active">
+                              <a href="product-details.php?id=48"><img style="width:100%" src="images/carrusel/bohemian_rhapsody_carrusel.jpg" alt="Bohemian Rhapsody"></a>
+                            </div>
+                            <div class="carousel-item">
+                              <a href="product-details.php?id=1"><img style="width:100%" src="images/carrusel/the_godfather_carrusel.jpg" alt="The Godfather"></a>
+                            </div>
+                            <div class="carousel-item">
+                              <a href="product-details.php?id=66"><img style="width:100%" src="images/carrusel/the_shawshank_redemption_carrusel.jpg" alt="The Shawshank Redemption"></a>
+                            </div>
+                          </div>
+                          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>           
+    </section>
+
+
+    <section>
+
+        <div class="container">
+            <h3>Mejores Peliculas </h3>
+            <div class="row">
+                    <?php include('inc/carrusel2019.php'); ?>
+            </div>
+            <div class="row">
+                    <?php include('inc/carrusel2020.php'); ?> 
+            </div>
+        </div>  
+    </section>
+
+    <section>
+
+        <div class="container">
+            <h3>Ultimos Lanzamientos </h3>
+            <div class="row">
+                    <?php include('inc/pelis-nuevas.php'); ?>
+            </div>
+        </div>  
+    </section>
+
 <?php include('inc/footer.php'); ?>

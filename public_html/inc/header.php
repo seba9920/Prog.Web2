@@ -1,123 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+
+session_start();
+include('admin/functions/funcs.php');
+
+//obtengo el contenido del archivo
+$datos = file_get_contents('datos/usuarios.json');
+//convierto a un array
+$datosJson = json_decode($datos,true);
+
+if(isset($_POST['login'])){
+  foreach($datosJson as $user) { 
+    if($_POST['pass'] == $user['pass'] && $_POST['user'] == $user['user']){
+      $_SESSION['usuario_logueado'] = true;
+      $_SESSION['user'] = $user['user'];
+      $_SESSION['error'] = "0";
+      redirect('index.php');
+    break;
+    }else{
+      $_SESSION['error'] = "1";  
+    }
+  }
+}
+
+
+if(isset($_GET['logout'])){
+  unset($_SESSION['usuario_logueado']);
+  unset($_SESSION['user']);
+  $_SESSION['error'] = "0";
+}
+?>
+
+
+
+<!doctype html>
+<html lang="es">
   <head>
-    <meta charset="utf-8">
-    <title>MovieShop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Bootstrap styles -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet"/>
-    <!-- Customize styles -->
-    <link href="style.css" rel="stylesheet"/>
-    <!-- font awesome styles -->
-	<link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">
-		<!--[if IE 7]>
-			<link href="css/font-awesome-ie7.min.css" rel="stylesheet">
-		<![endif]-->
+      <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-		<!--[if lt IE 9]>
-			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <!--<link rel="stylesheet" href="assets/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">    
+ 
+  
+  <!-- Custom fonts for this template -->
 
-	<!-- Favicons -->
-    <link rel="shortcut icon" href="assets/img/logo-bootstrap-shoping-cart.png">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+
+    <link rel="stylesheet" href="assets/css/estilos.css">
+
+    <title>Shop Movies</title>
   </head>
-<body>
-<!-- 
-	Upper Header Section 
--->
-<!--<div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="topNav">
-		<div class="container">
-			<div class="alignR">
-				<div class="pull-left socialNw">
-					<a href="#"><span class="icon-twitter"></span></a>
-					<a href="#"><span class="icon-facebook"></span></a>
-					<a href="#"><span class="icon-youtube"></span></a>
-					<a href="#"><span class="icon-tumblr"></span></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>-->
+  <body>
+    <section class="bienvenidos">
+                    <div class="col-flex justify-content-end align-items-center">
 
-<!--
-Lower Header Section 
--->
-<div class="container">
-<div id="gototop"> </div>
-<header id="header">
-<div class="row">
-	<div class="span4">
-	<h1>
-	<a class="logo" href="index.php"><span>MovieShop</span> 
-		<img src="assets/img/logo-bootstrap-shoping-cart.png" alt="bootstrap sexy shop">
-	</a>
-	</h1>
-	</div>
-<!--	<div class="span4">
-	<div class="offerNoteWrapper">
-	<h1 class="dotmark">
-	<i class="icon-cut"></i>
-	Twitter Bootstrap shopping cart HTML template is available @ $14
-	</h1>
-	</div>
-	</div>-->
-	<!--<div class="span4 alignR">
-	<p><br> <strong> Contactenos (24/7) :  0800 1234 678 </strong><br><br></p>
-	<span class="btn btn-mini">[ 2 ] <span class="icon-shopping-cart"></span></span>
-	<span class="btn btn-warning btn-mini">$</span>
-	<span class="btn btn-mini">&pound;</span>
-	<span class="btn btn-mini">&euro;</span>
-	</div>-->
-</div>
-</header>
+                      <center><a href="index.php"><img class="img-fluid" src="assets/img/logo-bootstrap-shoping-cart.png" alt="bootstrap sexy shop" ></a></center>
 
-<!--
-Navigation Bar Section 
--->
-<div class="navbar">
-	  <div class="navbar-inner">
-		<div class="container">
-		  <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		  </a>
-		  <div class="nav-collapse">
-			<ul class="nav">
-			  <li class="<?php echo ($seccion=='index')?'active':''?>"><a href="index.php">Inicio</a></li>
-			  <li class="<?php echo ($seccion=='grid')?'active':''?>"><a href="products.php">Listado de Peliculas</a></li>
-			  
-			  <li class="<?php echo ($seccion=='contacto')?'active':''?>"><a href="contact.php">Contacto</a></li>
-			</ul>
-			
-			<ul class="nav pull-right">
-			<li class="dropdown">
-				<a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="icon-lock"></span>Conectarse<b class="caret"></b></a>
-				<div class="dropdown-menu">
-				<form class="form-horizontal loginFrm">
-				  <div class="control-group">
-					<input type="text" class="span2" id="inputEmail" placeholder="Email">
-				  </div>
-				  <div class="control-group">
-					<input type="password" class="span2" id="inputPassword" placeholder="Password">
-				  </div>
-				  <div class="control-group">
-					<label class="checkbox">
-					<input type="checkbox"> Recuerdame
-					</label>
-					
-					<a href="login.php"><input type="submit" value="Login" class="shopBtn btn-block"></a><br><br>
-					<a href="register.php"><input type="submit" value="Registrarse" class="shopBtn btn-block"></a>
-					<!--<button type="submit" class="shopBtn btn-block"><a href="register.php"><font color="white">Registrarse</font></a></button>-->
-				  </div>
-				</form>
-				</div>
-			</li>
-			</ul>
-		  </div>
-		</div>
-	  </div>
-	</div>
+
+                <div class="container-fluid">
+                  <div class="row flex-nowrap d-flex justify-content-between ">
+                    <nav class="navbar navbar-expand-lg">
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <img src="assets/img/menu.png" height="40px">
+                      </button>
+
+
+
+                      <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                        <div class="navbar-nav d-md" >
+                          <a class="nav-link" href="index.php">Inicio</span></a>
+                          <a class="nav-link" href="products.php">Listado de Peliculas</a>
+                          <a class="nav-link" href="contact.php">Contacto</a>
+                        </div>                   
+                      </div>                 
+                    </nav>
+
+
+                    <div class="dropdown d-md mr-3">
+                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0 "
+                                        alt="avatar image" height="35">                              
+                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class=" text-gray-600 small"><?php if(isset($_SESSION['user'])){ echo $_SESSION['user'];} else{ echo "User";} ?></span>                          
+                              </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                  
+                                  <?php if(!isset($_SESSION['user'])) { ?> 
+                                     <a href="login.php"><button class="dropdown-item" type="button" >Login</button></a>
+                                     <a href="register.php"><button class="dropdown-item" type="button">Register</button></a>
+                                  <?php } ?>
+
+                                  <?php if(isset($_SESSION['user'])) { ?> 
+                                  <a href="index.php?logout"><button class="dropdown-item" name="logout" type="button">Logout</button></a>
+                                  <?php } ?>
+
+                                </div>
+                            </div>
+
+                    </div>
+                  </div>
+
+
+                    </div>
+
+    </section>  

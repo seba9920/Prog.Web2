@@ -1,3 +1,33 @@
+    <?php
+session_start();
+
+
+//obtengo el contenido del archivo
+$datos = file_get_contents('../datos/usuarios.json');
+//convierto a un array
+$datosJson = json_decode($datos,true);
+
+if(isset($_POST['adminlogin'])){
+  foreach($datosJson as $user) { 
+    if($_POST['adminpass'] == $user['pass'] && $_POST['adminuser'] == $user['user']){
+      $_SESSION['admin_usuario_logueado'] = true;
+      $_SESSION['adminuser'] = $user['user'];
+      $_SESSION['admin_error'] = "0";
+      redirect('index.php');
+    break;
+    }else{
+      $_SESSION['admin_error'] = "1";  
+    }
+  }
+}
+
+if(isset($_GET['adminlogout'])){
+  unset($_SESSION['admin_usuario_logueado']);
+  unset($_SESSION['adminuser']);
+  $_SESSION['admin_error'] = "0";
+}
+?>
+    
     <!-- Sidebar -->
     <!--<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">-->
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -87,3 +117,4 @@
 
     </ul>
     <!-- End of Sidebar -->
+     

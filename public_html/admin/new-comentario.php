@@ -2,7 +2,7 @@
 include_once('functions/funcs.php');
 
 //obtengo el contenido del archivo
-$datos = file_get_contents('../datos/usuarios.json');
+$datos = file_get_contents('../datos/comentarios.json');
 //convierto a un array
 $datosJson = json_decode($datos,true);
 
@@ -14,27 +14,21 @@ $datosJson = json_decode($datos,true);
             $id = $_GET['edit'];
         }else{
             //agrego 
-            $id = date('Ymdhis');
+            $id = date('j/n/Y, H:i:s');
         }
-                
-        
-      
 
-        $datosJson[$id] = array('id'=>$id,'tipo'=>$_POST['tTipo'], 'nombre'=>$_POST['tName'], 'apellido'=>$_POST['tApellido'],
-         'fecha'=>$_POST['tFecha'], 'user'=>$_POST['tUser'], 'email'=>$_POST['tEmail'], 'pass'=>$_POST['tPass'], 'direccion'=>$_POST['tDireccion'],
-         'telefono'=>$_POST['tTel'], 'pedidos'=>$_POST['tPed'], 'dinero gastado'=>$_POST['tDinGas']);
-         
-        //echo '<pre>';
-        // var_dump($datosJson);
-        // echo '</pre>';
+
+
+        $datosJson[$id] = array('id'=>$id,'user'=>$_POST['tUser'], 'rating'=>$_POST['tRating'], 'comentario'=>$_POST['tComentario']);
+    
         //trunco el archivo
-        $fp = fopen('../datos/usuarios.json','w');
+        $fp = fopen('../datos/comentarios.json','w');
         //convierto a json string
         $datosString = json_encode($datosJson);
         //guardo el archivo
         fwrite($fp,$datosString);
         fclose($fp);
-        redirect('user.php');
+        redirect('comentarios.php');
     }
 
     if(isset($_GET['edit'])){
@@ -43,11 +37,8 @@ $datosJson = json_decode($datos,true);
 ?>
 
 <?php
-
-
-
-
-/*  if(isset($_FILES['tImg']))
+/* $id = 1;
+ if(isset($_FILES['tImg']))
 	var_dump($_FILES['tImg']);
 
 if(isset($_FILES['tImg'])){
@@ -58,9 +49,9 @@ if(isset($_FILES['tImg'])){
 	if(!is_dir($ruta))
 		mkdir($ruta);	 */		  
   
-/*     foreach($_FILES['tImg']['name'] as $pos=>$nombre){
+/*      foreach($_FILES['tImg']['name'] as $pos=>$nombre){
         redimensionar($ruta,$_FILES['tImg']['name'][$pos], $_FILES['tImg']['tmp_name'],$pos,$tamanhos);
-    } */
+    }  */
 /* 	redimensionar($ruta,$_FILES['tImg']['name'],$_FILES['tImg']['tmp_name'],0,$tamanhos);
 } */
 ?>
@@ -85,8 +76,8 @@ if(isset($_FILES['tImg'])){
 
   <!-- Custom styles for this template -->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <link href="css/estilos.css" rel="stylesheet">
   <link href="../style.css" rel="stylesheet"/>
+
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
@@ -187,83 +178,33 @@ include_once('inc/header.php');
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Editar Usuario</h1>
+          <h1 class="h3 mb-2 text-gray-800">Nuevo Usuario</h1>
           <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>-->
           
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
-            <div class="card-header py-1">
-            <a href="new-user.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo" style="float: right;"></a>
+            <div class="card-header py-0">
+              <!--<input class="btn btn-danger" type="submit" value="Añadir Nuevo">-->
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                    <form method="POST" action="" name="com" enctype="multipart/form-data">
+              <form method="POST" action="" name="com" enctype="multipart/form-data">
                       <table class="table bg-gradient-dark text-white" id="dataTable" width="100%" cellspacing="0">
-                        <tr>
-                          <td align="right"><label for="txtName">Tipo:</label</td>
-                          <td>
-                          <select name="tTipo" id="#tipo" class="bg-danger text-white">
-                          <option class="bg-danger text-white" value="Admin"
-                          <?php if($dato['tipo']=="Admin" ){
-                              echo 'selected="selected"';
-                            }?>
-                          > Admin </option>
-                          <option class="bg-danger text-white" value="Cliente"
-                           <?php if($dato['tipo']=="Cliente" ){
-                              echo 'selected="selected"';
-                            }?>
-                          > Cliente </option>
-                          
-                          
-                          </select>
-                          </td>
-                        </tr>
                        <tr>
-                          <td align="right"><label for="txtName">Nombre:</label</td>
-                          <td><input type="text" id="txtName" name="tName" value="<?php echo isset($dato)?$dato['nombre']:''?>" size="50" class="bg-danger text-white"></td>
+                          <td align="right"><label for="txUser">Usuario:</label</td>
+                          <td><input type="text" id="txtUser" name="tUser"  size="50" class="bg-danger text-white"></td>
                         </tr>
 
                         <tr>
-                          <td align="right"><label for="txtApellido">Apellido:</label</td>
-                          <td><input type="text" id="txtApellido" name="tApellido" value="<?php echo isset($dato)?$dato['apellido']:''?>" size="50" class="bg-danger text-white"></td>
+                          <td align="right"><label for="txtRating">Rating:</label</td>
+                          <td><input type="text" id="txtRating" name="tRating"  size="50" class="bg-danger text-white"></td>
                         </tr>
 
                         <tr>
-                          <td align="right"><label for="txtFecha">Fecha de nacimiento:</label</td>
-                          <td><input type="date" id="txtFecha" name="tFecha" value="<?php echo isset($dato)?$dato['fecha']:''?>" size="10" class="bg-danger text-white"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtUser">User:</label</td>
-                          <td><input type="text" id="txtUser" name="tUser" value="<?php echo isset($dato)?$dato['user']:''?>" size="50" class="bg-danger text-white"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtEmail">Email:</label</td>
-                          <td><input type="text" id="txtEmail" name="tEmail" value="<?php echo isset($dato)?$dato['email']:''?>" size="50" class="bg-danger text-white"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtPass">Password:</label</td>
-                          <td><input type="password" id="txtPass" name="tPass" value="<?php echo isset($dato)?$dato['pass']:''?>"  size="50" class="bg-danger text-white"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtDireccion">Direccion:</label</td>
-                          
-                          <td>
-                          <input type="text" id="txtDireccion" placeholder="Calle" name="tDireccion[calle]" value="<?php echo isset($dato)?$dato['direccion']['calle']:''?>" size="15" class="bg-danger text-white mi-input">
-                          <input type="text" id="txtDireccion" placeholder="Altura" name="tDireccion[altura]" value="<?php echo isset($dato)?$dato['direccion']['altura']:''?>" size="5" class="bg-danger text-white mi-input">
-                          <input type="text" id="txtDireccion" placeholder="Piso" name="tDireccion[piso]" value="<?php echo isset($dato)?$dato['direccion']['piso']:''?>" size="5" class="bg-danger text-white mi-input" >
-                          <input type="text" id="txtDireccion" placeholder="Depto" name="tDireccion[depto]" value="<?php echo isset($dato)?$dato['direccion']['depto']:''?>" size="5" class="bg-danger text-white mi-input">
-                          <input type="text" id="txtDireccion" placeholder="Barrio" name="tDireccion[barrio]" value="<?php echo isset($dato)?$dato['direccion']['barrio']:''?>" size="15" class="bg-danger text-white mi-input"></td>
-                        </tr>
-
-                        <tr>
-                          <td align="right"><label for="txtTelefono">Telefono:</label</td>
-                          <td><input type="text" id="txtTelefono" name="tTel" value="<?php echo isset($dato)?$dato['telefono']:''?>" size="50" class="bg-danger text-white"></td>
-                        </tr>
+                          <td align="right"><label for="txtComentario">Comentario</label</td>
+                          <td align="left"><textarea id="txtComentario" name="tComentario" cols="80" rows="5" class="bg-danger text-white"></textarea></td>
+                        </tr>   
 
                         <tr>
                           <td align="right"><input type="submit" name="add" value="Guardar" class="btn btn-danger"></td>
@@ -332,6 +273,9 @@ include_once('inc/header.php');
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+
+  <script src="js/recib-prod.js"></script>
+  <script src="js/recib-prod2.js"></script>
 
   <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>

@@ -176,14 +176,15 @@ include_once('inc/header.php');
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
+                <table class="table table-xl-responsive-borderless" id="dataTable" width="100%" cellspacing="0">
+                  <thead class="thead-dark">
                     <tr align="center">
                       <th>ID</th>
                       <th>Tipo</th>
                       <th>Nombre</th>
                       <th>Apellido</th>
                       <th>Fecha de nacimiento</th>
+                      <th>Usuario</th>
                       <th>Email</th>
                       <th>Direccion</th>
                       <th>Telefono</th>
@@ -201,6 +202,7 @@ include_once('inc/header.php');
                       <td><?php echo $us['nombre'] ?></td>
                       <td><?php echo $us['apellido'] ?></td>
                       <td><?php echo $us['fecha']; ?></td>
+                      <td><?php echo $us['user'] ?></td>
                       <td><?php echo $us['email']; ?></td>
                       <td><?php echo $us['direccion']['calle'].' '.
                                      $us['direccion']['altura'].' '.
@@ -221,7 +223,71 @@ include_once('inc/header.php');
                 </table>
               </div>
             </div>
-          </div>
+           </div>
+           <div class="card shadow mb-4">
+            <div class="card-header py-1">
+              <span class="m-0 font-weight-bold text-primary">Todo()</span>
+              <span class="m-0 font-weight-bold text-primary">|</span>
+              <span class="m-0 font-weight-bold text-primary">Publicado()</span>
+              <span class="m-0 font-weight-bold text-primary">|</span>
+              <span class="m-0 font-weight-bold text-primary">Borrador()</span>
+              <span class="m-0 font-weight-bold text-primary">|</span>
+              <span class="m-0 font-weight-bold text-primary">Pendiente()</span>
+              <a href="new-user.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo"></a>
+              <input class="btn btn-danger" type="submit" value="Imprimir">
+              <input class="btn btn-danger" type="submit" value="PDF">
+              <input class="btn btn-danger" type="submit" value="CSV">
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-xl-responsive-borderless" id="dataTable" width="100%" cellspacing="0">
+                  <thead class="thead-dark">
+                    <tr align="center">
+                      <th>ID</th>
+                      <th>Tipo</th>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>Fecha de nacimiento</th>
+                      <th>Usuario</th>
+                      <th>Email</th>
+                      <th>Direccion</th>
+                      <th>Telefono</th>
+                      <th>Pedidos</th>
+                      <th>Dinero Gastado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                  foreach(json_decode(file_get_contents('../datos/admin.json'), true) as $ad){ ?>
+                    <tr align="center">
+                      <td><?php echo $ad['id']; ?></td>
+                      <td><?php echo $ad['tipo']; ?></td>
+                      <td><?php echo $ad['nombre'] ?></td>
+                      <td><?php echo $ad['apellido'] ?></td>
+                      <td><?php echo $ad['fecha']; ?></td>
+                      <td><?php echo $ad['user'] ?></td>
+                      <td><?php echo $ad['email']; ?></td>
+                      <td><?php echo $ad['direccion']['calle'].' '.
+                                     $ad['direccion']['altura'].' '.
+                                     $ad['direccion']['piso'].'º'.
+                                     $ad['direccion']['depto'].' '.
+                                     $ad['direccion']['barrio']; ?></td>
+                      <td><?php echo $ad['telefono']; ?></td>
+                      <td><?php /* echo $us['pedidos']; */ ?></td>
+                      <td><?php /* echo $us['dineroGastado']; */ ?></td>
+
+                      <td><center>
+                      <a href="edit-user.php?edit=<?php echo $us['id'];?>"><i class="fas fa-edit"></a></i>&nbsp;&nbsp;
+                      <a href="user.php?del=<?php echo $us['id'];?>"><i class="fas fa-trash-alt"></i></a></i></center>
+                      </td>
+                    </tr>
+                  <?php } ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+           </div>
 
         </div>
         <!-- /.container-fluid -->

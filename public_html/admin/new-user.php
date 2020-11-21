@@ -20,7 +20,7 @@ $datosJson = json_decode($datos,true);
 
 
         $datosJson[$id] = array('id'=>$id,'tipo'=>$_POST['tTipo'], 'nombre'=>$_POST['tName'], 'apellido'=>$_POST['tApellido'],
-         'fecha'=>$_POST['tFecha'], 'email'=>$_POST['tEmail'], 'direccion'=>$_POST['tDireccion'],
+         'fecha'=>$_POST['tFecha'], 'user'=>$_POST['tUser'], 'email'=>$_POST['tEmail'], 'pass'=>$_POST['tPass'], 'direccion'=>$_POST['tDireccion'],
          'telefono'=>$_POST['tTel'], 'pedidos'=>$_POST[''], 'gasto'=>$_POST['']);
     
         //trunco el archivo
@@ -220,8 +220,18 @@ include_once('inc/header.php');
                         </tr>
 
                         <tr>
+                          <td align="right"><label for="txtUser">User:</label</td>
+                          <td><input type="text" id="txtUser" name="tUser" size="50" class="bg-danger text-white"></td>
+                        </tr>
+
+                        <tr>
                           <td align="right"><label for="txtEmail">Email:</label</td>
                           <td><input type="text" id="txtEmail" name="tEmail"  size="50" class="bg-danger text-white"></td>
+                        </tr>
+
+                        <tr>
+                          <td align="right"><label for="txtPass">Password:</label</td>
+                          <td><input type="password" id="txtPass" name="tPass"  size="50" class="bg-danger text-white"></td>
                         </tr>
 
                         <tr>

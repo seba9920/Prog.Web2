@@ -181,8 +181,8 @@ include_once('inc/header.php');
             <div class="card-body">
               <div class="table-responsive">
               <form method="POST" action="edit-pelicula.php" enctype="multipart/form-data">
-                <table class="table table-bordered" id="tablajson" width="100%" cellspacing="0">
-                  <thead>
+                <table class="table table-xl-responsive-borderless" id="tablajson" width="100%" cellspacing="0">
+                  <thead class="thead-dark">
                     <tr align="center">
                       <th>ID</th>
                       <th>Nombre</th>

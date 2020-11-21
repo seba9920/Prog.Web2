@@ -1,63 +1,30 @@
-<?php include('inc/header.php');?>
-<!-- 
-Body Section 
--->
-	<div class="row" style="margin-left:40px">
-	<div class="well span10">
-	<div class="span10">
+<?php include('inc/header.php'); ?>
+        
 
-	
-	<div class="row" style="margin-left:40px">
-	
-		<div class="span4">
-			<div class="well">
-			<center><h5>Iniciar Sesion</h5></center>
-			<hr class="soften"/>
-			<form>
-			  <div class="control-group">
-				<label class="control-label" for="inputEmail">Email</label>
-				<div class="controls">
-				  <input class="span3"  type="text" placeholder="Email">
-				</div>
-			  </div>
-			  <div class="control-group">
-				<label class="control-label" for="inputPassword">Password</label>
-				<div class="controls">
-				  <input type="password" class="span3" placeholder="Password">
-				</div>
-			  </div>
-			<div class="control-group">
-		  	<center>
-				<input type="submit" value="Iniciar Sesion" class="exclusive shopBtn">
-				<input type="submit" name="Registrarse" value="Registrarse" class="exclusive shopBtn">
-				
-			</center>
-			</div>
-			</form>
-		</div>
-		</div>
-		<div class="span4">
-			<div class="well">
-			<center><h5>Recuperar Contraseña</h5></center>
-			<hr class="soften"/>
-			<center>Si olvidadeste tu contraseña, ingresa tu email y te enviaremos un link para recuperarla.</center><br/>
-			<form>
-			  <div class="control-group">
-				<label class="control-label" for="inputEmail">Email</label>
-				<div class="controls">
-				  <input class="span3"  type="text" placeholder="Email">
-				</div>
-			  </div>
-			  <div class="controls">
-			  <button type="submit" class="exclusive shopBtn">Enviar</button>
-			  </div>
-			</form>
-		</div>
-		</div>
-		
-	</div>	
-	
+
+        
+<div class="container col-7 col-md-4 py-5">
+    <form class="form-signin py-5" method="POST">
+  <i class="fas fa-users" style="font-size: 100px;"></i>
+  
+  <label for="inputUser" class="sr-only">Usuario</label>
+  <input type="text" name="user" id="inputUser" value="" class="form-control" placeholder="Usuario" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" name="pass" id="inputPassword" value="" class="form-control" placeholder="Password" required>
+  <div class="checkbox mb-3 d-flex justify-content-start">
+    <label>
+    <input type="checkbox" value="remember-me"> Recuerdame
+    </label>
+  </div>  
+    <p class="alert-danger"><b>
+    <?php if($_SESSION['error'] == "1" ){ echo "Usuario o Contraseña incorrecta" ;  }?>
+    </b></p>    
+    
+  
+  <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Iniciar Sesion</button>
+  
+</form>
+
 </div>
-</div>
-</div>
-<?php include('inc/footer.php');?>
+
+<?php include('inc/footer.php'); ?>
