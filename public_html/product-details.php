@@ -10,7 +10,7 @@ $datosJson = json_decode($datos,true);
 		
 		$id = date('j/n/Y, H:i:s');
 
-        $datosJson[$id] = array('id'=>$id,'user'=> $_SESSION['user'], 'rating'=>$_POST['tRating'], 'comentario'=>$_POST['tComentario']);
+        $datosJson[$id] = array('id'=>$id,'user'=> $_SESSION['user'],'peli'=> $_GET['id'], 'rating'=>$_POST['tRating'], 'comentario'=>$_POST['tComentario']);
     
         //trunco el archivo
         $fp = fopen('datos/comentarios.json','w');
@@ -19,8 +19,22 @@ $datosJson = json_decode($datos,true);
         //guardo el archivo
         fwrite($fp,$datosString);
         fclose($fp);
-        //redirect('product-details.php');
+        redirect('product-details.php?id='.$_GET['id'] );
 	}
+	$totalrating=0;
+	$tot=0;
+	$prom=0;
+	
+						
+					$comments = json_decode(file_get_contents('datos/comentarios.json'),true);
+					foreach($comments as $com){ 
+					 	if($com['peli'] == $_GET['id']){ 
+					 
+							$totalrating +=$com['rating'];
+							$tot++;
+						} 
+					} 
+				$prom=$totalrating/$tot;
 	
 ?>
 
@@ -143,7 +157,7 @@ $datosJson = json_decode($datos,true);
                                     <div class="col"><?php echo $prod['duracion']?></div>
                                 </div>
                                     <div class="row">Rating:
-                                    <div class="col"><?php echo $prod['rating']?></div>
+                                    <div class="col"><?php echo $prom; ?> / 5 </div>
                                 </div>
                                   </div>
                         </div>
@@ -172,13 +186,17 @@ break;
 					<div class="d-flex justify-content-center"><h4 class="mb-3">Comentarios</h4></div>
 
 					<?php 
-									$comments = json_decode(file_get_contents('datos/comentarios.json'),true);
-							foreach($comments as $com){ ?>	
+						
+								$t=0;
+						$columns = array_column($comments, 'id');
+						array_multisort($columns, SORT_DESC, $comments);
+							foreach($comments as $com){ 
+								if($t==10){break;}
+											
+								if($com['peli'] == $_GET['id']){ ?>	
+					<div class="container-fluid border rounded border-dark mb-3" style="box-shadow: inset 0 0 10px; word-wrap: break-word;">
 
-					<div class="container-fluid border rounded border-dark mb-3" style="box-shadow: inset 0 0 10px;">
-
-
-
+									
 				            <div class="box box-b box-block my-4">
 
 				              <div class="box-comment-info d-flex justify-content-between">
@@ -204,7 +222,14 @@ break;
 							
 							</div>
 							
-				    </div><?php } ?>
+				    </div>
+					<?php 
+				$totalrating +=$com['rating'];
+				$tot++;
+				$t++;
+				} } 
+				$prom=$totalrating/$tot;
+				?>
 				</div>
 
 <!--

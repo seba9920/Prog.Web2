@@ -1,5 +1,33 @@
 			<div class="col-12 col-lg-10">
-		      <h3>Listado de Peliculas</h3>
+			<?php 
+			$categorias = json_decode(file_get_contents('datos/categorias.json'),true);
+			$clasificacion = json_decode(file_get_contents('datos/clasificacion.json'),true);
+			$c="";
+			$cl="";
+			if(isset( $_GET['cat'])) {
+				foreach($categorias as $cat){
+					if($cat['id']==$_GET['cat']){
+						$c=$cat['nombre'];
+					}
+				}
+			}
+			if(isset($_GET['clasificacion'])) {
+				foreach($clasificacion as $cla) {
+					if($cla['nombre']==$_GET['clasificacion']) {
+						$cl=$cla['nombre'];
+					}
+				}
+		    }
+			?>
+
+		      <h3>Listado de Peliculas 
+			  <?php if(isset( $_GET['cat']) && isset( $_GET['clasificacion']) ) { 
+				 		   if($_GET['cat'] != "") {  ?> [<?php echo $c; ?>] <?php } ?>
+					 <?php if($_GET['clasificacion'] != "") {  ?> [<?php echo $cl; ?>] <?php } 
+				} ?>
+				  
+			  
+			  </h3>
 		      	<div class="row">
 
 

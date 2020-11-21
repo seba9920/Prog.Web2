@@ -258,8 +258,9 @@ include_once('inc/header.php');
     </div>
   </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
+ <!-- Bootstrap core JavaScript-->
+ <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <!--<script src="vendor/jquery/jquery.min.js"></script>-->
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
@@ -275,6 +276,17 @@ include_once('inc/header.php');
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+  
+  
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+   $(document).ready(function() {
+    $('#tablajson').DataTable();
+    } );
+   
+   </script> 
 
 </body>
 

@@ -57,7 +57,7 @@ if(isset($_GET['logout'])){
 
 
     <link rel="stylesheet" href="assets/css/estilos.css">
-
+    <link rel="shortcut icon" href="assets/img/logo-bootstrap-shoping-cart.png">
     <title>Shop Movies</title>
   </head>
   <body>

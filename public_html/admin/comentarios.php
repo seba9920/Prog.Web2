@@ -189,6 +189,7 @@ include_once('inc/header.php');
                     <tr align="center">
                       <th>Fecha</th>
                       <th>Usuario</th>
+                      <th>Pelicula</th>
                       <th>Rating</th>
                       <th>Comentario</th>
                       <th>Acciones</th>
@@ -200,8 +201,18 @@ include_once('inc/header.php');
                     <tr align="center">
                     <td><?php echo $peli['id']; ?></td>
                       <td><?php echo $peli['user']; ?></td>
+                      
+                      <td>
+                      <?php foreach(json_decode(file_get_contents('../datos/productos.json'), true) as $pel){ 
+                              if($peli['peli'] == $pel['id']) { ?>
+
+                              <?php echo $pel['nombre']; ?>
+                              <?php }
+                        } ?>
+                      </td>
+
                       <td><?php echo $peli['rating']; ?></td>
-                      <td><?php echo $peli['comentario']; ?></td>
+                      <td style=" word-wrap: break-word;"><?php echo $peli['comentario']; ?></td>
                       <td><center>
                       <a href="edit-comentario.php?edit=<?php echo $peli['id'];?>"><i class="fas fa-edit"></a></i>&nbsp;&nbsp;
                       <a href="comentarios.php?del=<?php echo $peli['id'];?>"><i class="fas fa-trash-alt"></i></a></i></center>
