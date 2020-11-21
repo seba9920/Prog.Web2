@@ -1,0 +1,57 @@
+html{
+	font-size: 15px;
+}
+body{
+	background-color:#3333;
+	height: 100vh;
+}
+.bienvenidos{
+	background-color: #333333;
+	background-size: cover;
+}
+.navbar-toggler{
+	/*background-image: url('https://mdbootstrap.com/img/svg/hamburger6.svg?color=000')*/
+}
+.nav-link{
+	color: white;
+}
+.nav-link:hover{
+	color: red;
+}
+.texto-bienvenida{
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	text-align: center;
+}
+.categorias{
+	margin-right: 130px;
+}
+.listado-peliculas{
+	margin-right: 130px;
+}
+.container{	
+	text-align: center;
+}
+
+h3{
+	text-align: left;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+h5{
+	text-align: left;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+footer{
+	background-color:#333333;
+	height: 10vh;
+	color: white;
+}
+ul{
+	text-align: left;
+}
+p{
+	color: red;
+}
