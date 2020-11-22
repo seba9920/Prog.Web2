@@ -61,6 +61,7 @@ if(isset($_GET['logout'])){
     <title>Shop Movies</title>
   </head>
   <body>
+  
     <section class="bienvenidos">
                     <div class="col-flex justify-content-end align-items-center">
 
@@ -113,3 +114,4 @@ if(isset($_GET['logout'])){
                     </div>
 
     </section>  
+    

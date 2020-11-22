@@ -1,3 +1,34 @@
+<?php
+include('functions/funcs.php');
+session_start();
+
+//obtengo el contenido del archivo
+$datosA = file_get_contents('../datos/admin.json');
+//convierto a un array
+$datosAdmin = json_decode($datosA,true);
+
+if(isset($_POST['adminlogin'])){
+  foreach($datosAdmin as $admin) { 
+    if($_POST['adminpass'] == $admin['pass'] && $_POST['adminuser'] == $admin['user']){
+      $_SESSION['admin_usuario_logueado'] = true;
+      $_SESSION['adminuser'] = $admin['user'];
+      $_SESSION['admin_error'] = "0";
+      redirect('index.php');
+    break;
+    }else{
+      $_SESSION['admin_error'] = "1";  
+      
+    }
+  }
+}
+
+if(isset($_GET['adminlogout'])){
+  unset($_SESSION['admin_usuario_logueado']);
+  unset($_SESSION['adminuser']);
+  $_SESSION['admin_error'] = "0";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,6 +83,9 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
+                      <p class="alert-danger"><b>
+                      <?php if(isset($_SESSION['admin_error'])){if($_SESSION['admin_error'] == "1" ){ echo "Usuario o Contraseña incorrecta" ;  }}?>
+                      </b></p>    
                     <button class="btn btn-primary btn-user btn-block" type="submit" name="adminlogin">Iniciar Sesion</button>
   
                     
