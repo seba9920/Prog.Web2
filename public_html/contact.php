@@ -10,7 +10,7 @@ include('inc/header.php');
           <div class="iconchunk iconchunk-top iconchunk-accent-1 text-center">
             <div class="iconchunk-content">
               <p class="mb-1" style="color: black;">
-                <h1>Nosotros lo somos! :D</h1><br>
+                <h1>¿Quienes somos?</h1><br>
 				Somos estudiantes en la Escuela Da Vinci de la carrera de Analista en Sistemas
               </p>
 
