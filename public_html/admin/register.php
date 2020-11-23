@@ -1,3 +1,42 @@
+<?php
+
+include_once('functions/funcs.php');
+
+
+//ADMIN--------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+
+$datos = file_get_contents('../datos/admin.json');
+//convierto a un array
+$datosJson = json_decode($datos,true);
+$errorpass="";
+if(isset($_POST['tPass1'])&&isset($_POST['tPass2']))  {
+if($_POST['tPass1']==$_POST['tPass2']){
+    if(isset($_POST['add'])){
+        
+    
+        $id = date('j/n/Y, H:i:s');
+
+        $datosJson[$id] = array('id'=>$id,'tipo'=> "Admin", 'nombre'=>$_POST['tName'], 'apellido'=>$_POST['tApellido'],
+         'fecha'=>$_POST['tFecha'], 'user'=>$_POST['tUser'], 'email'=>$_POST['tEmail'], 'pass'=>$_POST['tPass1'], 'direccion'=>$_POST['tDireccion'],
+         'telefono'=>$_POST['tTel'], 'pedidos'=>$_POST[''], 'gasto'=>$_POST['']);
+    
+        //trunco el archivo
+        $fp = fopen('../datos/admin.json','w');
+        //convierto a json string
+        $datosString = json_encode($datosJson);
+        //guardo el archivo
+        fwrite($fp,$datosString);
+        fclose($fp);
+        redirect('login.php');
+    }
+  }else{
+    $errorpass="Las Contraseñas no coinciden";
+  }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,41 +73,80 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
               </div>
-              <form class="user">
+              <form class="user" method="POST" action="">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
+                    <input type="text" class="form-control form-control-user" name="tName" id="txtName" placeholder="Nombre"
+                    value="<?php if(isset($_POST['tName'])) { echo $_POST['tName']; } ?>" required>
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name">
+                    <input type="text" class="form-control form-control-user" name="tApellido" id="txtApellido" placeholder="Apellido" 
+                    value="<?php if(isset($_POST['tApellido'])) { echo $_POST['tApellido']; } ?>" required>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address">
+                  <input type="date" class="form-control form-control-user" name="tFecha" id="txtFecha" placeholder="Fecha de Nacimiento"
+                  value="<?php if(isset($_POST['tFecha'])) { echo $_POST['tFecha']; } ?>" required>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control form-control-user" name="tEmail" id="txtEmail" placeholder="Email Address"
+                  value="<?php if(isset($_POST['tEmail'])) { echo $_POST['tEmail']; } ?>" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" name="tUser" id="txtUser" placeholder="Usuario"
+                  value="<?php if(isset($_POST['tUser'])) { echo $_POST['tUser']; } ?>" required>
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                    <input type="password" class="form-control form-control-user" name="tPass1" id="txtPass1" placeholder="Password" required>
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password">
+                    <input type="password" class="form-control form-control-user" name="tPass2" id="txtPass2" placeholder="Repeat Password" required>
                   </div>
                 </div>
-                <a href="login.php" class="btn btn-primary btn-user btn-block">
-                  Register Account
-                </a>
+                <div class="d-flex justify-content-center">
+                <p class="text-danger"><?php if ($errorpass != ""){ echo $errorpass; }?></p>
+                </div>
                 <hr>
-                <a href="index.php" class="btn btn-google btn-user btn-block">
-                  <i class="fab fa-google fa-fw"></i> Register with Google
-                </a>
-                <a href="index.php" class="btn btn-facebook btn-user btn-block">
-                  <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                </a>
+                <label for="txtDireccion">Direccion:</label>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="tDireccion[barrio]" id="txtDireccion" placeholder="Barrio"
+                    value="<?php if(isset($_POST['tDireccion']['barrio'])) { echo $_POST['tDireccion']['barrio']; } ?>">
+                  </div>
+                  <div class="col-sm-6 ">
+                    <input type="text" class="form-control form-control-user" name="tDireccion[calle]" id="txtDireccion" placeholder="Calle"
+                    value="<?php if(isset($_POST['tDireccion']['calle'])) { echo $_POST['tDireccion']['calle']; } ?>">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-4 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="tDireccion[altura]" id="txtDireccion" placeholder="Altura"
+                    value="<?php if(isset($_POST['tDireccion']['altura'])) { echo $_POST['tDireccion']['altura']; } ?>">
+                  </div>
+                  <div class="col-sm-4 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="tDireccion[piso]"  id="txtDireccion" placeholder="Piso"
+                    value="<?php if(isset($_POST['tDireccion']['piso'])) { echo $_POST['tDireccion']['piso']; } ?>">
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control form-control-user" name="tDireccion[depto]" id="txtDireccion" placeholder="Depto"
+                    value="<?php if(isset($_POST['tDireccion']['depto'])) { echo $_POST['tDireccion']['depto']; } ?>">
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" name="tTel"  id="txtTelefono" placeholder="Telefono"
+                  value="<?php if(isset($_POST['tTel'])) { echo $_POST['tTel']; } ?>">
+                </div>
+                <hr>
+                <tr >
+                <td ><input type="submit" name="add" value="Registrarse" class="btn btn-primary btn-user btn-block"></td>
+                <td ><input type="reset" value="Borrar" class="btn btn-danger btn-user btn-block"></td>
+                </tr>
+                
               </form>
               <hr>
-              <div class="text-center">
-                <a class="small" href="forgot-password.php">Forgot Password?</a>
-              </div>
+              
               <div class="text-center">
                 <a class="small" href="login.php">Already have an account? Login!</a>
               </div>

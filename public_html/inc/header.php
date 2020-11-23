@@ -12,7 +12,7 @@ if(isset($_POST['login'])){
   foreach($datosJson as $user) { 
     if($_POST['pass'] == $user['pass'] && $_POST['user'] == $user['user']){
       $_SESSION['usuario_logueado'] = true;
-      $_SESSION['user'] = $user['user'];
+      $_SESSION['user'] = $user['nombre']." ".$user['apellido'];
       $_SESSION['error'] = "0";
       redirect('index.php');
     break;
