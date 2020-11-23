@@ -17,7 +17,7 @@
     </label>
   </div>  
     <p class="alert-danger"><b>
-    <?php if($_SESSION['error'] == "1" ){ echo "Usuario o Contraseña incorrecta" ;  }?>
+    <?php if(isset($_SESSION['error'])){if($_SESSION['error'] == "1" ){ echo "Usuario o Contraseña incorrecta" ;  }}?>
     </b></p>    
     
   

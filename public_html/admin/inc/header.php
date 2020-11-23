@@ -15,7 +15,7 @@
       foreach($datosAdmin as $admin) { 
         if($_POST['adminpass'] == $admin['pass'] && $_POST['adminuser'] == $admin['user']){
           $_SESSION['admin_usuario_logueado'] = true;
-          $_SESSION['adminuser'] = $admin['user'];
+          $_SESSION['adminuser'] = $admin['nombre']." ".$admin['apellido'];
           $_SESSION['admin_error'] = "0";
           redirect('index.php');
         break;

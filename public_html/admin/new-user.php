@@ -140,7 +140,7 @@ if(isset($_POST['tTipo'])){
                         </tr>
 
                         <tr>
-                          <td align="right"><label for="txtDireccion">Direccion:</label</td>
+                          <td align="right"><label for="txtDireccion">Direccion:</label></td>
                           <td>
                           <input type="text" id="txtDireccion" placeholder="Calle" name="tDireccion[calle]"  size="15" class="bg-danger text-white mi-input">
                           <input type="text" id="txtDireccion" placeholder="Altura" name="tDireccion[altura]"  size="5" class="bg-danger text-white mi-input">
