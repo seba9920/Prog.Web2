@@ -157,7 +157,7 @@ $datosJson = json_decode($datos,true);
                                     <div class="col"><?php echo $prod['duracion']?></div>
                                 </div>
                                     <div class="row">Rating:
-                                    <div class="col"><?php echo $prom; ?> / 5 </div>
+                                    <div class="col"><?php echo round($prom, 2); ?> / 5 </div>
                                 </div>
                                   </div>
                         </div>
@@ -229,6 +229,7 @@ break;
 				$t++;
 				} } 
 				$prom=$totalrating/$tot;
+				
 				?>
 				</div>
 
