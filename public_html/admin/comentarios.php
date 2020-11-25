@@ -60,7 +60,7 @@ if(isset($_GET['del'])){
               <span class="m-0 font-weight-bold text-primary">Borrador()</span>
               <span class="m-0 font-weight-bold text-primary">|</span>
               <span class="m-0 font-weight-bold text-primary">Pendiente()</span>
-              <a href="new-comentario.php"><input class="btn btn-danger" type="submit" value="Añadir Comentario"></a>
+              
               <input class="btn btn-danger" type="submit" value="Importar">
               <input class="btn btn-danger" type="submit" value="Exportar">
             </div>

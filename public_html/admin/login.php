@@ -13,7 +13,7 @@ if(isset($_POST['adminlogin'])){
       $_SESSION['admin_usuario_logueado'] = true;
       $_SESSION['adminuser'] = $admin['nombre']." ".$admin['apellido'];
       $_SESSION['admin_error'] = "0";
-      redirect('index.php');
+      redirect('peliculas.php');
     break;
     }else{
       $_SESSION['admin_error'] = "1";  

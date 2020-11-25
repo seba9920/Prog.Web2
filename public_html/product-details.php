@@ -156,6 +156,9 @@ $datosJson = json_decode($datos,true);
                                     <div class="row">Duracion:
                                     <div class="col"><?php echo $prod['duracion']?></div>
                                 </div>
+								    <div class="row">Descripcion:
+                                    <div class="col"><?php echo $prod['descripcion']?></div>
+                                </div>
                                     <div class="row">Rating:
                                     <div class="col"><?php echo round($prom, 2); ?> / 5 </div>
                                 </div>
