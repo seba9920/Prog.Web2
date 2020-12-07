@@ -47,14 +47,14 @@ $datosJson = json_decode($datos,true);
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Editar Usuario</h1>
+          <h1 class="h3 mb-2 text-gray-800">Editar Comentarios</h1>
           <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>-->
           
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-1">
-            <a href="new-comentario.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo" style="float: right;"></a>
+            
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -64,6 +64,12 @@ $datosJson = json_decode($datos,true);
                           <td align="right"><label for="txtUser">Usuario:</label</td>
                           <td><input type="text" id="txtUser" name="tUser" value="<?php echo isset($dato)?$dato['user']:''?>" size="50" class="bg-danger text-white"></td>
                         </tr>
+
+                        <tr>
+                          <td align="right"><label for="txtRating">ID Pelicula:</label</td>
+                          <td><input type="text" id="txtRating" name="tRating" value="<?php echo isset($dato)?$dato['peli']:''?>" size="50" class="bg-danger text-white"></td>
+                        </tr>
+
                         <tr>
                           <td align="right"><label for="txtRating">Rating:</label</td>
                           <td><input type="text" id="txtRating" name="tRating" value="<?php echo isset($dato)?$dato['rating']:''?>" size="50" class="bg-danger text-white"></td>

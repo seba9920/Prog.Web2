@@ -1,7 +1,41 @@
 <?php
 include('inc/header.php');
-?> 
+require_once './vendor/autoload.php';
 
+if (isset($_POST['enviar'])) {
+try {
+    // Create the SMTP Transport
+    $transport = (new Swift_SmtpTransport('smtp.gmail.com',
+    465,
+    'ssl'))
+        ->setUsername('contactomovieshop@gmail.com')
+        ->setPassword('contacto123');
+ 
+    // Create the Mailer using your created Transport
+    $mailer = new Swift_Mailer($transport);
+ 
+    // Create a message
+    $message = new Swift_Message();
+ 
+    // Set a "subject"
+    $message->setSubject('Contactarse MovieShop');
+ 
+    // Set the "From address"
+    $message->setFrom([$_POST['email'] => $_POST['nombre']]);
+ 
+    // Set the "To address" [Use setTo method for multiple recipients, argument should be array]
+    $message->addTo('contactomovieshop@gmail.com');
+ 
+    // Set the plain-text "Body"
+    $message->setBody("Email: ".$_POST['email']."\nNombre: ".$_POST['nombre']."\nMensaje: ".$_POST['mensaje']);
+ 
+    // Send the message
+    $result = $mailer->send($message);
+    redirect('contact.php');
+} catch (Exception $e) {
+  echo $e->getMessage();
+} }
+?>
 <section class="block block-bb">
     <div class="container">
       <div class="row">
@@ -69,33 +103,31 @@ include('inc/header.php');
 
       <div class="row">
         <div class="col-md-6 mx-auto">
-          <form action="#">
+          <form action="#" method="POST">
             <div class="form-group">
 			          	
               <input type="text" class="form-control form-control-lg"
                      id="example-input-name"
-                     placeholder="Nombre">
+                     placeholder="Nombre" name="nombre">
             </div>
 
             <div class="form-group">
               <input type="email" class="form-control form-control-lg"
                      id="example-input-email"
-                     placeholder="Email">
+                     placeholder="Email" name="email">
             </div>
 
             <div class="form-group">
               <textarea placeholder="Escrib tu mensaje..."
                         class="form-control"
-                        id="example-textarea" rows="7"></textarea>
+                        id="example-textarea" name="mensaje" rows="7"></textarea>
             </div>
 
             <div class="text-right">
                 <a href="#" class="btn btn-danger">
             	    <span>Reset</span>
                 </a>
-                <a href="#" class="btn btn-success">
-                    <span>Enviar</span>
-                </a>
+                <input class="btn btn-success" type="submit" name="enviar" value="Enviar">
             </div>
 
           </form>

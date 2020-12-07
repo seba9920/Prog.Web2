@@ -64,7 +64,7 @@ if(isset($_GET['deladmin'])){
               <span class="m-0 font-weight-bold text-primary">Borrador()</span>
               <span class="m-0 font-weight-bold text-primary">|</span>
               <span class="m-0 font-weight-bold text-primary">Pendiente()</span>
-              <a href="new-user.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo"></a>
+              <a href="new-user.php"><input class="btn btn-danger" type="submit" value="Añadir Admin"></a>
               <input class="btn btn-danger" type="submit" value="Imprimir">
               <input class="btn btn-danger" type="submit" value="PDF">
               <input class="btn btn-danger" type="submit" value="CSV">
@@ -132,7 +132,7 @@ if(isset($_GET['deladmin'])){
               <span class="m-0 font-weight-bold text-primary">Borrador()</span>
               <span class="m-0 font-weight-bold text-primary">|</span>
               <span class="m-0 font-weight-bold text-primary">Pendiente()</span>
-              <a href="new-user.php"><input class="btn btn-danger" type="submit" value="Añadir Nuevo"></a>
+              <a href="new-user.php"><input class="btn btn-danger" type="submit" value="Añadir Cliente"></a>
               <input class="btn btn-danger" type="submit" value="Imprimir">
               <input class="btn btn-danger" type="submit" value="PDF">
               <input class="btn btn-danger" type="submit" value="CSV">

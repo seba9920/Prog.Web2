@@ -65,7 +65,7 @@ $datosJson = json_decode($datos,true);
                         </tr>                            
                         <tr>
                           <td align="right"><input type="submit" name="add" value="Guardar" class="btn btn-danger"></td>
-                          <td align="left"><input type="reset" value="Borrar" class="btn btn-danger"></td>
+                          <td align="left"><input type="reset" value="Reset" class="btn btn-danger"></td>
                         </tr>                         
                       </table>
                     </form>
