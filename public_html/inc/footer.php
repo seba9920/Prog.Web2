@@ -2,7 +2,7 @@
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up"></i></button>
 
     <section>
-        <div class="container-fluid" align="center">
+        <div class="" align="center">
             <footer>
                 
                 <span>©Copyright 2020. Todos los derechos reservados.<br>Movie Shop</span>
