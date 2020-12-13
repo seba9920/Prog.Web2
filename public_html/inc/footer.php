@@ -5,7 +5,7 @@
         <div class="container-fluid" align="center">
             <footer>
                 
-                <span>©Copyright 2020 - Design by Estudio One </span>
+                <span>©Copyright 2020. Todos los derechos reservados.<br>Movie Shop</span>
             </footer>
         </div>   
 
