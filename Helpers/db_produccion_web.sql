@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-06-2021 a las 07:35:47
+-- Tiempo de generación: 07-08-2021 a las 00:00:38
 -- Versión del servidor: 10.4.19-MariaDB
 -- Versión de PHP: 7.3.28
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `produccion`
+-- Base de datos: `db_produccion_web`
 --
 
 -- --------------------------------------------------------
